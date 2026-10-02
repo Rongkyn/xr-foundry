@@ -73,3 +73,8 @@ mandatory capability. Narrow or remove unsupported requirements. Only an explici
 admission plus public implementation task permits blueprint/scaffold work under
 the existing process. [Verification contract](verification-contract.md) describes
 future obligations; every clause is currently unexecuted.
+
+The independent Blender evidence gap is available as **WI-033** in
+[work-items.json](../../contributing/work-items.json), reachable with the
+`ai_tokens_only` capability. It requests a bounded source audit, not an
+admission decision or implementation.

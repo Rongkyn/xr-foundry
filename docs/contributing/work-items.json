@@ -1161,6 +1161,53 @@
       },
       "evidence": "The four artifacts in the tree and a passing repository contract.",
       "done_proof": "docs/standards/quality-tiers/verification-contract.md"
+    },
+    {
+      "id": "WI-033",
+      "title": "Audit Blender Grease Pencil document and undo evidence",
+      "milestone_batch": "2b",
+      "needs": "none",
+      "decision_class": "routine",
+      "size": "medium",
+      "status": "open",
+      "depends_on": [],
+      "read_first": [
+        "AGENTS.md",
+        "docs/contributing/work-items.md",
+        "docs/contributing/capabilities.md",
+        "docs/milestones.md",
+        "docs/foundry/system-admission.md",
+        "docs/standards/spatial-drawing/README.md",
+        "docs/standards/spatial-drawing/source-manifest.json",
+        "docs/standards/spatial-drawing/source-to-capability.md",
+        "docs/standards/spatial-drawing/verification-contract.md",
+        "docs/standards/spatial-drawing/admission.draft.json"
+      ],
+      "allowed_paths": [
+        "docs/standards/spatial-drawing/blender-source-audit.md",
+        "docs/contributing/work-items.json",
+        "CHANGELOG.md"
+      ],
+      "steps": [
+        "Create a bounded Blender Grease Pencil source audit at docs/standards/spatial-drawing/blender-source-audit.md. This is research preparation toward milestone batch 2b, not positive-source admission, milestone completion or proof of external participation. The current Blender architecture, migration and undo entries contain indexed excerpts only; do not treat them as a completed review.",
+        "Fetch complete primary evidence from Blender official documentation and its implementation repository for stroke/document representation, structural edits and local undo/redo. Record retrieval date, exact URL and path or section, full immutable commit or versioned-document revision, retrieval outcome, applicable license/terms evidence and per-file notices where relevant. Resolve mutable links to immutable evidence where possible; explicitly leave unresolved pins and inaccessible material unverified. Record dated maintenance observations and a relevant test inventory with exact paths and what those tests assert; source inspection is not test execution or proof of current support.",
+        "Map observations to the proposed kernel and relevant SD-01, SD-02, SD-04, SD-05, SD-06, SD-07 and SD-10 obligations: point/stroke attributes and identity lifetime; coordinate context; create/delete/replace/transform behavior and rollback; undo/redo, divergent edits and history limits; snapshot/replay boundaries; renderer/editor coupling; and license constraints. For each topic cite exact source locations, separate observed facts from Foundry synthesis, mark supported, partial, unsupported or inaccessible, and state the implication for retaining, narrowing or deferring the proposed requirement. Do not infer atomicity, bounded history, immutable ownership, stable IDs or deterministic replay from a feature label or manual excerpt.",
+        "Count Blender as one independent implementation lineage. Open Brush and MultiBrush remain one Tilt Brush lineage; InkML is normative vocabulary and Three.js is an input/render example, not substitute document/edit/history evidence. Compare only the already recorded sources as context; do not expand this item into another source hunt. Record limitations or counterexamples candidly. Use original factual summaries and source links only: copy no implementation code, assets or documentation text.",
+        "End the audit with answered questions, unresolved evidence and the exact next source-gate review needed. Negative, partial or inaccessible findings are valid research outcomes when all scoped topics are assessed, retrieval attempts are documented and gaps are explicit; an access failure never counts as positive evidence. Keep the family reference_only and proposal_not_admitted. Do not change source/admission decisions, ownership or permissions, queue or milestone status, verification requirements, package IDs, staged code, catalogs, compatibility, maturity, release or device claims.",
+        "Run the acceptance commands, record their results and the audited repository revision in the audit, and add a concise root CHANGELOG entry. Report any merge-readiness review or permission blocker honestly; research completion is not merge eligibility and does not supply human approval. Update only WI-033 status and done_proof in work-items.json when the audit artifact supports completion under the existing protocol; leave other items unchanged. No claim, lease, named reviewer or additional contribution queue is introduced."
+      ],
+      "acceptance": {
+        "commands": [
+          "python scripts/validate_repository.py --json",
+          "python -m unittest discover -s tests -p \"test_*.py\"",
+          "python scripts/merge_readiness.py --base origin/main --head HEAD --markdown"
+        ],
+        "artifacts": [
+          "docs/standards/spatial-drawing/blender-source-audit.md"
+        ]
+      },
+      "evidence": "The audit provides revision-bound primary evidence, license and lineage observations, a test inventory, capability-by-capability support and limitations, explicit unverified gaps, and recorded validation results. Repository checks validate structure, not source truth or source-gate admission; research completion can report unsupported requirements and does not complete milestone 2b.",
+      "done_proof": null
     }
   ]
 }

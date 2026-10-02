@@ -5,6 +5,10 @@ live in each package's `CHANGELOG.md`.
 
 ## Unreleased
 
+- Added open research item WI-033 for independent Blender Grease Pencil
+  document/edit/undo evidence, with a bounded documentation-only audit and
+  explicit negative outcomes. The spatial-drawing source gate remains open.
+
 - Proposed spatial drawing and annotation (`NEXT-SPATIAL-DRAWING`) with a bounded
   stroke-document design, source retrieval and lineage records, an unadopted
   admission worksheet, and planned verification/lesson dispositions. Open Brush
