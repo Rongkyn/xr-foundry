@@ -26,6 +26,12 @@ unknown batch, a circular dependency, or a private script.
    item; the merge-readiness verdict decides between the results, and the second
    one rebases. Only a non-routine item needs a Task Hall claim
    ([`task-hall.md`](task-hall.md)).
+   To hand the complete item to another tool without session context, run
+   `python scripts/open_work.py --item WI-nnn --capability <id> --markdown`
+   (or `--json`), replacing the IDs with the selected item and your declaration.
+   The [packet](open-work.md#export-one-complete-item-brief) includes all steps,
+   acceptance commands, artifacts, prerequisites, and evidence. It neither runs
+   those commands nor reserves work.
 3. **Stay inside `allowed_paths`.** Items with disjoint paths run in parallel,
    in one session or across many tools. A change outside the paths is a separate
    item or a separate pull request.

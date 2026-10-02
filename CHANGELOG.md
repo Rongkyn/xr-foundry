@@ -5,6 +5,12 @@ live in each package's `CHANGELOG.md`.
 
 ## Unreleased
 
+- Added opt-in complete item briefs (`open_work.py --item WI-nnn`) for human
+  and Agent contributors, with canonical validation, explicit capability and
+  prerequisite readiness, source digests, all acceptance instructions, and no
+  authority grant. The existing board format stays unchanged. Clarified the
+  fork/commit/readiness route and truthful cold-start receipt lifecycle.
+
 - Corrected open-work dispatch to preserve curated `decision_class` values and
   withhold dependency-blocked items from capability-filtered views. The complete
   board retains pending prerequisite ids; missing dependencies fail closed and

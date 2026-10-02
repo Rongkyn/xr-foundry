@@ -92,3 +92,48 @@ python scripts/open_work.py --output board.json # write the JSON
 The generator exits non-zero only when a source file cannot be read from disk. A
 file with an unexpected shape is skipped and named in `warnings`, so a partial
 board is always visible and never silently complete.
+
+## Export one complete item brief
+
+After selecting a curated `WI-nnn` item, give your coding Agent the complete
+packet rather than just the board's first-step summary:
+
+```text
+python scripts/open_work.py --item WI-012 --capability ai_tokens_only --markdown
+python scripts/open_work.py --item WI-012 --capability ai_tokens_only --json
+python scripts/open_work.py --item WI-012 --output packet.json
+```
+
+These examples inspect WI-012, not recommend it: it requires a Unity Editor and
+may still have unfinished prerequisites. Choose an actual open item your current
+declaration can finish. Read every `read_first` file, stay inside `allowed_paths`,
+and review the commands before running them yourself. Packet generation does not
+execute acceptance commands or contact another Agent.
+
+The packet copies the complete source item, including status, decision class,
+all steps, exact acceptance commands and artifacts, evidence, and `done_proof`.
+Prerequisites include their current statuses and proof paths. `readiness.ready`
+is true only for an `open` item whose prerequisites are all `done` and whose
+`needs` are satisfied by the explicitly supplied current capability profile.
+`blocked`, `in_progress`, and `done` items can be inspected but are never offered
+as ready to start. Without `--capability`, readiness remains unconfirmed, even
+for `needs: none`. Readiness grants no authority and does not replace the
+non-routine route, review, or evidence gates.
+
+JSON packets use `xr-foundry.item_brief.v1`, separate from the unchanged
+`xr-foundry.open_work.v1` board format. The envelope contains `item`,
+`prerequisites`, `capability` (the current profile or null), `readiness`, and the
+no-authority `disclaimer`. `generated_at` and `commit` identify the generation
+context; `source_path` and `source_sha256` identify the actual work-item snapshot.
+The optional profile has its own `capability_source_path` and
+`capability_source_sha256`. HEAD alone does not identify uncommitted source edits;
+retain the digests and regenerate after updating your checkout. This is a derived
+view, never a second registry or a reservation.
+
+Packet mode validates the full canonical work-item registry (including duplicate
+IDs, dependency cycles, paths, and done proofs) and, when declared, the current
+capability profiles using the existing validators. It fails closed with a nonzero
+exit and a diagnostic for invalid sources, unknown IDs, or an unwritable output.
+`--item` cannot combine with `--list-capabilities` or both `--json` and
+`--markdown`. As with board mode, `--output` writes JSON; Markdown can also be
+printed alongside that file. Existing board CLI combinations remain unchanged.

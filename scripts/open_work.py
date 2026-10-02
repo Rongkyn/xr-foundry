@@ -13,13 +13,15 @@ Usage:
     python scripts/open_work.py --markdown
     python scripts/open_work.py --json --output PATH
 
-Exit status is 0 unless a source file cannot be read from disk. A file with an
-unexpected shape is skipped and reported in the ``warnings`` list.
+Board mode skips malformed shapes with warnings. Packet mode (--item WI-nnn)
+fails on invalid canonical work-item data and never executes acceptance commands.
+Both modes return nonzero for unreadable sources.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -679,6 +681,130 @@ def filter_board_by_capability(board: dict[str, Any], profile: dict[str, Any]) -
     return narrowed
 
 
+PACKET_SCHEMA = "xr-foundry.item_brief.v1"
+PACKET_DISCLAIMER = (
+    "This generated packet assigns and reserves nothing. Capability and readiness "
+    "grant no write, review, merge, release, promotion, governance, or device authority. "
+    "Source files remain authoritative. Read the cited files before acting; commands "
+    "are data for review, never executed by this exporter."
+)
+
+
+def build_item_brief(root: Path, item_id: str, capability: str | None = None,
+                      now: datetime | None = None) -> dict[str, Any]:
+    """Export the canonical record, failing closed on invalid source contracts.
+
+    Validation is deliberately stricter than the best-effort board. Validating
+    the entire work registry also checks duplicate ids, dependency cycles, and
+    done proofs, so malformed prerequisites cannot confer readiness.
+    """
+    try:
+        import validate_repository as validator
+    except ModuleNotFoundError as error:
+        if error.name != "validate_repository":
+            raise
+        from scripts import validate_repository as validator
+
+    source = root / WORK_ITEMS_FILE
+    raw = source.read_bytes()
+    errors = validator.validate_work_items(root)
+    if source.read_bytes() != raw:
+        raise ValueError("work-item source changed during validation; retry the export")
+    if errors:
+        raise ValueError("invalid work-item source: " + "; ".join(errors))
+    payload = json.loads(raw)
+    items = {item["id"]: item for item in payload["items"]}
+    if item_id not in items:
+        raise ValueError(f"unknown work item {item_id!r}")
+    item = items[item_id]
+    profile = None
+    profile_digest = None
+    if capability is not None:
+        profile_raw = (root / CAPABILITY_PROFILES_FILE).read_bytes()
+        errors = validator.validate_capability_profiles(root)
+        if (root / CAPABILITY_PROFILES_FILE).read_bytes() != profile_raw or source.read_bytes() != raw:
+            raise ValueError("source changed during capability validation; retry the export")
+        if errors:
+            raise ValueError("invalid capability source: " + "; ".join(errors))
+        profiles = {entry["id"]: entry for entry in json.loads(profile_raw)["profiles"]}
+        if capability not in profiles:
+            raise ValueError(f"unknown capability profile {capability!r}")
+        profile = profiles[capability]
+        profile_digest = hashlib.sha256(profile_raw).hexdigest()
+    prerequisites = [
+        {"id": dep, "title": items[dep]["title"], "status": items[dep]["status"],
+         "complete": items[dep]["status"] == "done", "done_proof": items[dep]["done_proof"]}
+        for dep in item["depends_on"]
+    ]
+    reasons = []
+    if item["status"] != "open":
+        reasons.append(f"Item status is {item['status']}; only open items are available to start.")
+    pending = [dep["id"] for dep in prerequisites if not dep["complete"]]
+    if pending:
+        reasons.append("Unfinished prerequisites: " + ", ".join(pending) + ".")
+    matches = None if profile is None else item["needs"] in profile["satisfies_needs"]
+    if profile is None:
+        reasons.append("No capability declared; capability readiness is unconfirmed.")
+    elif not matches:
+        reasons.append(f"Capability {capability} does not satisfy needs {item['needs']}.")
+    return {
+        "schema": PACKET_SCHEMA,
+        "generated_at": (now or datetime.now(timezone.utc)).isoformat().replace("+00:00", "Z"),
+        "commit": git_head(root),
+        "source_path": WORK_ITEMS_FILE.as_posix(),
+        "source_sha256": hashlib.sha256(raw).hexdigest(),
+        "item": item,
+        "capability": profile,
+        "capability_source_path": CAPABILITY_PROFILES_FILE.as_posix() if profile else None,
+        "capability_source_sha256": profile_digest,
+        "prerequisites": prerequisites,
+        "readiness": {"ready": not reasons, "capability_satisfied": matches,
+                      "pending_dependencies": pending, "reasons": reasons},
+        "disclaimer": PACKET_DISCLAIMER,
+    }
+
+
+def render_item_brief(packet: dict[str, Any]) -> str:
+    item = packet["item"]
+    lines = [f"# Item brief: {item['id']} — {item['title']}", "",
+             packet["disclaimer"], "",
+             f"Generated {packet['generated_at']} at HEAD `{packet['commit'] or 'unknown'}`.",
+             f"Source: `{packet['source_path']}` (SHA-256 `{packet['source_sha256']}`).",
+             "HEAD identifies the checkout; the digest identifies the actual source snapshot, including local edits.", "",
+             f"- Status: {item['status']}", f"- Decision class: {item['decision_class']}",
+             f"- Milestone batch: {item['milestone_batch']}", f"- Size: {item['size']}",
+             f"- Required capability (needs): {item['needs']}",
+             f"- Ready to start: {'yes' if packet['readiness']['ready'] else 'no'}",
+             "Readiness checks only open status, prerequisites, and declared capability. "
+             "It does not satisfy claims, leases, review, or evidence gates. Follow "
+             "docs/contributing/work-items.md and, for non-routine work, docs/contributing/task-hall.md."]
+    lines.extend(f"- {reason}" for reason in packet["readiness"]["reasons"])
+    profile = packet["capability"]
+    if profile:
+        lines += ["", f"## Declared capability: {profile['id']}", "", profile["brings"],
+                  f"Source: `{packet['capability_source_path']}` (SHA-256 `{packet['capability_source_sha256']}`).",
+                  "", "May never claim:"]
+        lines.extend(f"- {claim}" for claim in profile["may_never_claim"])
+    lines += ["", "## Prerequisites", ""]
+    for dep in packet["prerequisites"]:
+        lines.append(f"- {dep['id']}: {dep['title']} — {dep['status']}; "
+                     f"complete: {str(dep['complete']).lower()}; proof: {dep['done_proof'] or 'none'}")
+    if not packet["prerequisites"]:
+        lines.append("None.")
+    for heading, entries in (("Read first", item["read_first"]),
+                             ("Allowed paths", item["allowed_paths"]),
+                             ("Steps", item["steps"]),
+                             ("Acceptance commands (review before running)", item["acceptance"]["commands"]),
+                             ("Acceptance artifacts", item["acceptance"]["artifacts"])):
+        lines += ["", f"## {heading}", ""]
+        lines.extend(f"{index}. {entry}" for index, entry in enumerate(entries, 1))
+        if not entries:
+            lines.append("None declared.")
+    lines += ["", "## Evidence", "", item["evidence"], "", "## Done proof", "",
+              item["done_proof"] or "None recorded. Completion requires an existing proof path in the source item.", ""]
+    return "\n".join(lines)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--root", default=".", help="repository root (default: current directory)")
@@ -695,9 +821,26 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="print the declared capability profiles and the question each one answers",
     )
+    parser.add_argument("--item", help="export a complete curated item brief by WI-nnn id")
     args = parser.parse_args(argv)
+    if args.item is not None and (args.list_capabilities or (args.json and args.markdown)):
+        parser.error("--item cannot combine with --list-capabilities or both --json and --markdown")
 
     root = Path(args.root).resolve()
+    if args.item is not None:
+        try:
+            packet = build_item_brief(root, args.item, args.capability)
+            payload = json.dumps(packet, indent=2) + "\n"
+            if args.output:
+                Path(args.output).write_text(payload, encoding="utf-8")
+        except (OSError, ValueError, UnicodeError, UnreadableSource) as error:
+            print(f"open_work: cannot export item brief: {error}", file=sys.stderr)
+            return 1
+        if args.markdown:
+            print(render_item_brief(packet), end="")
+        if args.json or not (args.markdown or args.output):
+            print(payload, end="")
+        return 0
     try:
         profiles = load_capability_profiles(root)
     except UnreadableSource as error:
