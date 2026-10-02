@@ -24,7 +24,7 @@ import json
 import re
 import subprocess
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -108,6 +108,7 @@ class WorkItem:
     evidence_note: str | None = None
     review_not_before: str | None = None
     window_closed: bool | None = None
+    pending_dependencies: list[str] = field(default_factory=list)
 
 
 class UnreadableSource(Exception):
@@ -148,7 +149,9 @@ class Collector:
     def add(self, **fields: Any) -> None:
         kind = fields["kind"]
         blocked_on = fields["blocked_on"]
-        lane = "routine" if blocked_on == "nothing" and kind in ROUTINE_KINDS else "non_routine"
+        lane = fields.pop("lane", None)
+        if lane is None:
+            lane = "routine" if blocked_on == "nothing" and kind in ROUTINE_KINDS else "non_routine"
         self.items.append(WorkItem(lane=lane, **fields))
 
     # -- sources -----------------------------------------------------------
@@ -311,17 +314,24 @@ class Collector:
             if blocked_on is None:
                 self.warn_shape(path, f"{item['id']} declares an unknown needs value {needs!r}")
                 continue
-            depends_on = [str(value) for value in item.get("depends_on", []) if isinstance(value, str)]
-            unfinished = [
-                other
-                for other in depends_on
-                if any(
-                    isinstance(candidate, dict)
-                    and candidate.get("id") == other
-                    and candidate.get("status") != "done"
-                    for candidate in items
-                )
-            ]
+            decision_class = item.get("decision_class")
+            if decision_class not in LANES:
+                self.warn_shape(path, f"{item['id']} declares an unknown decision_class {decision_class!r}")
+                continue
+            depends_on = item.get("depends_on")
+            if not isinstance(depends_on, list) or not all(
+                isinstance(value, str) and value.strip() for value in depends_on
+            ):
+                self.warn_shape(path, f"{item['id']} depends_on is not a list of non-empty ids")
+                continue
+            unfinished = []
+            for dependency in depends_on:
+                matches = [candidate for candidate in items
+                           if isinstance(candidate, dict) and candidate.get("id") == dependency]
+                if not matches:
+                    self.warn_shape(path, f"{item['id']} names unknown dependency {dependency}")
+                if len(matches) != 1 or matches[0].get("status") != "done":
+                    unfinished.append(dependency)
             steps = [str(step) for step in item.get("steps", []) if isinstance(step, str)]
             next_action = steps[0] if steps else f"Read {self.rel(path)} for {item['id']}."
             if unfinished:
@@ -329,6 +339,8 @@ class Collector:
             self.add(
                 id=f"{self.rel(path)}#{item['id']}",
                 kind="work_item",
+                lane=decision_class,
+                pending_dependencies=unfinished,
                 family=REPOSITORY_FAMILY,
                 title=f"{item['id']}: {item.get('title', '')}".strip(),
                 source_path=self.rel(path),
@@ -560,11 +572,13 @@ def render_markdown(board: dict[str, Any]) -> str:
         lines.append("")
         lines.append(
             "Narrowed to capability `{id}` ({title}), which reaches work blocked on {blockers}. "
-            "{hidden} item(s) need a different declaration.".format(
+            "{hidden} item(s) need a different declaration; "
+            "{waiting} item(s) wait on dependencies.".format(
                 id=capability.get("id"),
                 title=capability.get("title"),
                 blockers=", ".join(capability.get("satisfies_blockers", [])),
-                hidden=capability.get("items_hidden", 0),
+                hidden=capability.get("items_needing_capability", capability.get("items_hidden", 0)),
+                waiting=capability.get("items_waiting_on_dependencies", 0),
             )
         )
     lines.append("")
@@ -644,13 +658,16 @@ def filter_board_by_capability(board: dict[str, Any], profile: dict[str, Any]) -
     """
 
     reachable = set(profile.get("satisfies_blockers", []))
-    items = [item for item in board["items"] if item["blocked_on"] in reachable]
+    eligible = [item for item in board["items"] if item["blocked_on"] in reachable]
+    items = [item for item in eligible if not item.get("pending_dependencies")]
     narrowed = dict(board)
     narrowed["capability"] = {
         "id": profile.get("id"),
         "title": profile.get("title"),
         "satisfies_blockers": sorted(reachable),
         "items_hidden": len(board["items"]) - len(items),
+        "items_needing_capability": len(board["items"]) - len(eligible),
+        "items_waiting_on_dependencies": len(eligible) - len(items),
     }
     narrowed["items"] = items
     narrowed["summary"] = {

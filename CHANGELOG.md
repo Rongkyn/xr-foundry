@@ -5,6 +5,12 @@ live in each package's `CHANGELOG.md`.
 
 ## Unreleased
 
+- Corrected open-work dispatch to preserve curated `decision_class` values and
+  withhold dependency-blocked items from capability-filtered views. The complete
+  board retains pending prerequisite ids; missing dependencies fail closed and
+  malformed dispatch fields emit warnings. Regression tests cover the current
+  WI-010/WI-016 lane mismatch and WI-012/WI-013/WI-014 prerequisite boundary.
+
 - Passed the source gate for Platform services (`docs/standards/platform-services/`,
   WI-027: 12 sources across Meta, PICO, Steamworks, Apple Game Center and StoreKit,
   Unity Gaming Services, store policy, and two maintained open-source layers;
