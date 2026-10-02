@@ -2958,6 +2958,89 @@ class RepositoryContractTests(unittest.TestCase):
 
         self.assertTrue(any("must include raw_material" in error for error in errors))
 
+    def test_reference_package_coherence_accepts_live_catalogs(self) -> None:
+        catalog = MODULE.load_json(ROOT / "package-catalog.json")
+        reference = MODULE.load_json(ROOT / "reference-catalog.json")
+        self.assertEqual([], MODULE.validate_reference_package_coherence(catalog, reference))
+
+    def test_reference_package_coherence_rejects_maturity_drift_for_every_package(self) -> None:
+        catalog = MODULE.load_json(ROOT / "package-catalog.json")
+        reference = MODULE.load_json(ROOT / "reference-catalog.json")
+        for index, artifact in enumerate(reference["artifacts"]):
+            if not artifact.get("package_id"):
+                continue
+            different_maturity = next(
+                state for state in catalog["maturity_states"] if state != artifact["maturity"]
+            )
+            for maturity in (different_maturity, None):
+                with self.subTest(package_id=artifact["package_id"], maturity=maturity):
+                    mutated = copy.deepcopy(reference)
+                    if maturity is None:
+                        mutated["artifacts"][index].pop("maturity")
+                    else:
+                        mutated["artifacts"][index]["maturity"] = maturity
+                    errors = MODULE.validate_reference_package_coherence(catalog, mutated)
+                    self.assertEqual(1, len(errors), errors)
+                    self.assertIn("maturity must agree", errors[0])
+                    self.assertIn(artifact["package_id"], errors[0])
+
+    def test_repository_rejects_non_inventory_reference_maturity_drift(self) -> None:
+        load_json = MODULE.load_json
+        reference_path = ROOT / "reference-catalog.json"
+        reference = load_json(reference_path)
+        artifact = next(
+            item for item in reference["artifacts"]
+            if item.get("package_id") == "com.lingkyn.settings.core"
+        )
+        catalog = load_json(ROOT / "package-catalog.json")
+        artifact["maturity"] = next(
+            state for state in catalog["maturity_states"] if state != artifact["maturity"]
+        )
+
+        def mutated_load_json(path):
+            return reference if path == reference_path else load_json(path)
+
+        with mock.patch.object(MODULE, "load_json", side_effect=mutated_load_json):
+            errors = MODULE.validate_repository(ROOT)
+        self.assertTrue(any(
+            "maturity must agree" in error and "com.lingkyn.settings.core" in error
+            for error in errors
+        ), errors)
+
+    def test_reference_package_coherence_rejects_unknown_package_id(self) -> None:
+        catalog = MODULE.load_json(ROOT / "package-catalog.json")
+        reference = MODULE.load_json(ROOT / "reference-catalog.json")
+        artifact = next(item for item in reference["artifacts"] if item.get("package_id"))
+        artifact["package_id"] = "com.lingkyn.unknown"
+        errors = MODULE.validate_reference_package_coherence(catalog, reference)
+        self.assertEqual(1, len(errors), errors)
+        self.assertIn("reference package_id is not in package catalog", errors[0])
+
+    def test_reference_package_coherence_binds_each_path_to_its_package_id(self) -> None:
+        catalog = MODULE.load_json(ROOT / "package-catalog.json")
+        reference = MODULE.load_json(ROOT / "reference-catalog.json")
+        artifacts = [item for item in reference["artifacts"] if item.get("package_id")]
+        artifacts[0]["path"], artifacts[1]["path"] = artifacts[1]["path"], artifacts[0]["path"]
+        errors = MODULE.validate_reference_package_coherence(catalog, reference)
+        self.assertEqual(2, len(errors), errors)
+        self.assertTrue(all("reference path must match package catalog" in error for error in errors))
+
+    def test_reference_package_coherence_errors_have_specific_hints(self) -> None:
+        catalog = {"packages": [{"id": "com.lingkyn.example", "path": "example", "maturity": "incubating"}]}
+        reference = {"artifacts": [
+            {"package_id": "com.lingkyn.unknown"},
+            {"package_id": "com.lingkyn.example", "path": "wrong", "maturity": "candidate"},
+        ]}
+        errors = MODULE.validate_reference_package_coherence(catalog, reference)
+        self.assertEqual(3, len(errors), errors)
+        for entry in MODULE.explain_errors(errors):
+            self.assertNotIn("No specific hint", entry["hint"], entry)
+            self.assertIn("catalog.json", entry["hint"], entry)
+
+    def test_reference_package_coherence_ignores_non_package_artifacts(self) -> None:
+        reference = {"artifacts": [{"id": "standard", "maturity": "candidate"}]}
+        self.assertEqual([], MODULE.validate_reference_package_coherence({"packages": []}, reference))
+
     def test_reference_catalog_rejects_nonexistent_evidence_path(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

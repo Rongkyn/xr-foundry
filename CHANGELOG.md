@@ -5,6 +5,11 @@ live in each package's `CHANGELOG.md`.
 
 ## Unreleased
 
+- Cross-check every package reference’s maturity and path against its explicit
+  package-catalog identity, extending Inventory-only maturity checks to all live
+  families and rejecting unknown package IDs. Added mutation regressions for all
+  15 package references; this checks agreement, not promotion evidence.
+
 - Passed the source gate for Platform services (`docs/standards/platform-services/`,
   WI-027: 12 sources across Meta, PICO, Steamworks, Apple Game Center and StoreKit,
   Unity Gaming Services, store policy, and two maintained open-source layers;

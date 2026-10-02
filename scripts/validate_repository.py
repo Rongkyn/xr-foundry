@@ -7872,8 +7872,6 @@ def validate_inventory_projection_coherence(root: Path) -> list[str]:
         if package_reference is None or package_standard is None:
             errors.append(f"Inventory {label} package, standard, and reference entries must all exist")
             continue
-        if package_reference.get("maturity") != package.get("maturity"):
-            errors.append(f"Inventory {label} maturity must agree across package and reference catalogs")
 
         promotion = package.get("promotion")
         if not isinstance(promotion, dict):
@@ -10310,6 +10308,32 @@ def validate_asmdef_identity(package_root: Path, display_root: Path | None = Non
     return errors
 
 
+def validate_reference_package_coherence(catalog: dict, reference_catalog: dict) -> list[str]:
+    """Bind each package reference to its catalog entry, independently of family docs."""
+    errors: list[str] = []
+    packages = {
+        str(item.get("id", "")): item
+        for item in catalog.get("packages", [])
+        if isinstance(item, dict)
+    }
+    for artifact in reference_catalog.get("artifacts", []):
+        if not isinstance(artifact, dict) or not artifact.get("package_id"):
+            continue
+        package_id = str(artifact["package_id"])
+        artifact_id = str(artifact.get("id", package_id))
+        package = packages.get(package_id)
+        if package is None:
+            errors.append(f"{artifact_id}: reference package_id is not in package catalog: {package_id}")
+            continue
+        if artifact.get("path") != package.get("path"):
+            errors.append(f"{artifact_id}: reference path must match package catalog for {package_id}")
+        if artifact.get("maturity") != package.get("maturity"):
+            errors.append(
+                f"{artifact_id}: maturity must agree across package and reference catalogs for {package_id}"
+            )
+    return errors
+
+
 def validate_reference_package_use_modes(reference_catalog: Any) -> list[str]:
     errors: list[str] = []
     if not isinstance(reference_catalog, dict):
@@ -10391,6 +10415,7 @@ def validate_repository(root: Path) -> list[str]:
         }
         if package_artifact_paths != package_paths:
             errors.append("reference/package catalog paths must agree for all live packages")
+        errors.extend(validate_reference_package_coherence(catalog, reference_catalog))
         errors.extend(validate_reference_package_use_modes(reference_catalog))
         errors.extend(validate_reference_evidence_paths(root, reference_catalog))
 
@@ -10494,6 +10519,9 @@ def validate_fast_structure(root: Path) -> list[str]:
 
 
 FIX_HINTS: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"reference package_id is not in package catalog"), "Set reference-catalog.json package_id to the intended live package's id in package-catalog.json; unadmitted packages remain in staging."),
+    (re.compile(r"reference path must match package catalog"), "Copy the path belonging to this package_id from package-catalog.json into its reference-catalog.json entry; do not swap package identities."),
+    (re.compile(r"maturity must agree across package and reference catalogs"), "Match the reference-catalog.json maturity to this package's recorded maturity in package-catalog.json; changing a reference does not grant a promotion."),
     (re.compile(r"capability profiles .*satisfies_blockers must include 'nothing'"), "Every capability profile can take work that waits on nothing; add 'nothing' to satisfies_blockers."),
     (re.compile(r"capability profiles .*start_at page does not exist"), "start_at is the page that profile reads first; point it at a page that exists in the tree."),
     (re.compile(r"capability profiles .*first_command must run a script"), "first_command must invoke a script that exists under scripts/, for example 'python scripts/open_work.py --capability <id> --markdown'."),
