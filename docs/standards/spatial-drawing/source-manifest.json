@@ -1,0 +1,354 @@
+{
+  "status": "proposal_not_admitted",
+  "scope": "Spatial drawing document and edit boundaries",
+  "derivation_policy": "positive_external_public_sources_only",
+  "consumer_material_allowed": false,
+  "checked_on": "2026-10-02",
+  "review_note": "Retrieval records distinguish fetched content, indexed excerpts and failure. Mutable main/latest pages and retrieved cached content are not immutable source pins or proof of current maintenance. No source code or assets are vendored. Existing admitted_role/admitted_claims field names below record bounded proposal observations, never authority to admit this family. Open Brush selected files and the corrected Three.js XR paint path were subsequently fetched at immutable refs through the GitHub connector; prior web failures remain retrieval history.",
+  "sources": [
+    {
+      "id": "open-brush-repository",
+      "url": "https://github.com/icosa-foundation/open-brush",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "web search/open",
+      "fetch_status": "fetched_page",
+      "lineage": "tilt-brush",
+      "license_or_terms": "Apache-2.0 at repository root; third-party code, assets and trademarks require separate audit.",
+      "immutable_ref": null,
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "kind": "public_primary_source",
+      "admitted_role": "Implementation candidate; current maintenance and dependency/test audit remain open.",
+      "admitted_claims": [
+        "Repository identifies Open Brush as a Tilt Brush fork. README documents Unity build prerequisites, experimental compatibility caveats and third-party replacements."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+    },
+    {
+      "id": "open-brush-license",
+      "url": "https://raw.githubusercontent.com/icosa-foundation/open-brush/140b2e73dd91280ee36ea69db7e1d124b4123370/LICENSE",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "GitHub connector fetch; HEAD resolved by public git ls-remote",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "lineage": "tilt-brush",
+      "license_or_terms": "Apache-2.0; retain applicable notices and review every selected file; no copying in this proposal.",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "kind": "public_primary_source",
+      "admitted_role": "License evidence only.",
+      "admitted_claims": [
+        "Root license is Apache License 2.0."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Exact HEAD ref resolved 2026-10-02 and this file fetched at that ref. This establishes accessible revision, not a test execution or complete maintenance audit."
+    },
+    {
+      "id": "open-brush-stroke-data",
+      "url": "https://raw.githubusercontent.com/icosa-foundation/open-brush/140b2e73dd91280ee36ea69db7e1d124b4123370/Assets/Scripts/StrokeData.cs",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "GitHub connector fetch; HEAD resolved by public git ls-remote",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "lineage": "tilt-brush",
+      "license_or_terms": "File header Apache-2.0; architecture facts only.",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "kind": "public_primary_source",
+      "admitted_role": "Stroke data and brush reference comparison; counterexample to assuming deterministic saved geometry.",
+      "admitted_claims": [
+        "StrokeData stores control points, color, brush GUID, size and scale; a geometry random seed is explicitly not currently serialized."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Exact HEAD ref resolved 2026-10-02 and this file fetched at that ref. This establishes accessible revision, not a test execution or complete maintenance audit."
+    },
+    {
+      "id": "open-brush-stroke",
+      "url": "https://raw.githubusercontent.com/icosa-foundation/open-brush/140b2e73dd91280ee36ea69db7e1d124b4123370/Assets/Scripts/Stroke.cs",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "GitHub connector fetch; HEAD resolved by public git ls-remote",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "lineage": "tilt-brush",
+      "license_or_terms": "File Apache-2.0; architecture facts only.",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "kind": "public_primary_source",
+      "admitted_role": "Coordinate, lifecycle and snapshot comparison; scene coupling is not a design to transplant.",
+      "admitted_claims": [
+        "Stroke distinguishes retained data from geometry and includes canvas-relative transforms and save-thread copying."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Exact HEAD ref resolved 2026-10-02 and this file fetched at that ref. This establishes accessible revision, not a test execution or complete maintenance audit."
+    },
+    {
+      "id": "blender-architecture",
+      "url": "https://developer.blender.org/docs/features//grease_pencil/architecture/",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "web search/open",
+      "fetch_status": "search_excerpt_only_direct_fetch_failed",
+      "lineage": "blender",
+      "license_or_terms": "Documentation facts only; do not copy GPL implementation or documentation text.",
+      "immutable_ref": null,
+      "fetch_detail": "Both normalized and double-slash paths failed direct open (normalized path returned 402). Indexed excerpt retrieved.",
+      "authority": "Blender Foundation",
+      "kind": "public_primary_source",
+      "admitted_role": "Excerpt-only comparison pending full review: Independent implementation-documentation comparison, pending complete pinned review.",
+      "admitted_claims": [
+        "Official indexed architecture describes drawings as stroke sets with point position, radius, opacity, color and stroke-relative time attributes."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+    },
+    {
+      "id": "blender-migration",
+      "url": "https://developer.blender.org/docs/release_notes/4.3/grease_pencil_migration/",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "web search/open",
+      "fetch_status": "search_excerpt_only_direct_fetch_failed",
+      "lineage": "blender",
+      "license_or_terms": "Documentation facts only.",
+      "immutable_ref": null,
+      "fetch_detail": "Direct fetch returned 402.",
+      "authority": "Blender Foundation",
+      "kind": "public_primary_source",
+      "admitted_role": "Excerpt-only comparison pending full review: Migration and stable-identity hazards.",
+      "admitted_claims": [
+        "4.3 migration moves stroke/point data to curve/point attributes and warns that references can become invalid after structural changes."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+    },
+    {
+      "id": "blender-undo",
+      "url": "https://docs.blender.org/manual/en/latest/interface/undo_redo.html",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "web search/open",
+      "fetch_status": "search_excerpt_only",
+      "lineage": "blender",
+      "license_or_terms": "Documentation facts only.",
+      "immutable_ref": null,
+      "authority": "Blender Foundation",
+      "kind": "public_primary_source",
+      "admitted_role": "Excerpt-only comparison pending full review: Independent editing behavior; not proof of a reusable transaction implementation.",
+      "admitted_claims": [
+        "Official indexed manual describes undo, redo and truncation of redo history after a new edit."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+    },
+    {
+      "id": "inkml",
+      "url": "https://www.w3.org/TR/InkML/",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "web search/open",
+      "fetch_status": "fetched_page",
+      "lineage": "w3c-inkml",
+      "license_or_terms": "W3C specification terms; architecture facts only.",
+      "immutable_ref": null,
+      "authority": "W3C",
+      "kind": "official_standards_document",
+      "admitted_role": "Normative reference for traces and metadata; no InkML compliance or mandatory codec proposed.",
+      "admitted_claims": [
+        "W3C Recommendation dated 2011-09-20 specifies traces, typed channels and units, brush references and canvas transforms. Z is height above a writing surface, not an XR tracking-space contract."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+    },
+    {
+      "id": "unity-xri-input",
+      "url": "https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.0/manual/input.html",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "web search/open",
+      "fetch_status": "fetched_page",
+      "lineage": "unity",
+      "license_or_terms": "Unity documentation terms; no code copied.",
+      "immutable_ref": null,
+      "authority": "Unity Technologies",
+      "kind": "public_primary_source",
+      "admitted_role": "Adapter navigation only; version 3.0 is not this repository compatibility evidence.",
+      "admitted_claims": [
+        "Official index separates input configuration, input readers, gestures and input/feedback components."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+    },
+    {
+      "id": "multibrush-launch",
+      "url": "https://blog.rendever.com/2021/02/04/news-multibrush-by-rendever-now-available-on-sidequest-providing-artists-with-a-collaborative-tool-in-virtual-reality",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "web search/open",
+      "fetch_status": "fetched_page",
+      "lineage": "tilt-brush",
+      "license_or_terms": "Treat commercial/proprietary product as reference-only; no code, art, brushes or other assets copied or licensed by this citation.",
+      "immutable_ref": null,
+      "prior_attempts": [
+        {
+          "url": "https://www.rendever.com/multibrush",
+          "status": "inaccessible"
+        },
+        {
+          "url": "https://www.rendever.com/blog/multibrush",
+          "status": "inaccessible"
+        }
+      ],
+      "authority": "Rendever",
+      "kind": "public_primary_source",
+      "admitted_role": "Experience-only reference for optional collaboration; not independent architecture or implementation evidence.",
+      "admitted_claims": [
+        "Rendever announces MultiBrush as a multiplayer version of Tilt Brush on 2021-02-04."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+    },
+    {
+      "id": "multibrush-privacy",
+      "url": "https://www.rendever.com/multibrush/privacy",
+      "checked_on": "2026-10-02",
+      "fetch_status": "fetched_page",
+      "retrieval_method": "web open",
+      "lineage": "tilt-brush",
+      "license_or_terms": "Proprietary product; no code or asset reuse.",
+      "immutable_ref": null,
+      "authority": "Rendever",
+      "kind": "public_primary_source",
+      "admitted_role": "Confirms proprietary exclusion; no source license inferred.",
+      "admitted_claims": [
+        "Rendever privacy policy dated 2021-02-18 identifies MultiBrush as its proprietary application."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+    },
+    {
+      "id": "remote-assist-annotations",
+      "url": "https://github.com/MicrosoftDocs/dynamics-365-mixed-reality/blob/main/mr-docs/remote-assist/add-annotations-hololens.md",
+      "checked_on": "2026-10-02",
+      "fetch_status": "fetched_page",
+      "retrieval_method": "web open and find",
+      "lineage": "microsoft-remote-assist",
+      "license_or_terms": "Microsoft documentation facts only; no software implementation copied.",
+      "immutable_ref": null,
+      "authority": "Microsoft",
+      "kind": "public_primary_source",
+      "admitted_role": "Independent shipped spatial annotation behavior; not source implementation or evidence of current product support.",
+      "admitted_claims": [
+        "Microsoft documentation shows spatial inking, color selection, erase and undo within Remote Assist; it includes a deprecation notice reference."
+      ],
+      "excluded_uses": [
+        "No package admission, compatibility, performance or device evidence; no code/assets copied."
+      ],
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+    },
+    {
+      "id": "open-brush-command-tree",
+      "url": "https://raw.githubusercontent.com/icosa-foundation/open-brush/140b2e73dd91280ee36ea69db7e1d124b4123370/Assets/Scripts/Commands/BaseCommand.cs",
+      "checked_on": "2026-10-02",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "retrieval_method": "GitHub connector fetch; public git ls-remote resolved HEAD",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "lineage": "tilt-brush",
+      "kind": "official_implementation_source",
+      "admitted_claims": [
+        "BaseCommand undoes children in reverse order before the parent; redo applies parent before children. Constructors read application time and multiplayer state."
+      ],
+      "admitted_role": "Command ordering comparison; coupled application behavior is not adopted.",
+      "license_or_terms": "Apache-2.0 file header; no code copied.",
+      "maintenance_evidence": "Exact HEAD ref resolved and file fetched 2026-10-02; no execution, release status or complete maintenance audit.",
+      "excluded_uses": [
+        "No wholesale code extraction, assets, compatibility, device or performance claim."
+      ]
+    },
+    {
+      "id": "open-brush-brush-command",
+      "url": "https://raw.githubusercontent.com/icosa-foundation/open-brush/140b2e73dd91280ee36ea69db7e1d124b4123370/Assets/Scripts/Commands/BrushStrokeCommand.cs",
+      "checked_on": "2026-10-02",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "retrieval_method": "GitHub connector fetch; public git ls-remote resolved HEAD",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "lineage": "tilt-brush",
+      "kind": "official_implementation_source",
+      "admitted_claims": [
+        "BrushStrokeCommand undo/redo hides or enables stroke geometry and invokes scene/audio state. Disposal removes retained stroke resources."
+      ],
+      "admitted_role": "History/lifecycle comparison; not atomic immutable document proof.",
+      "license_or_terms": "Apache-2.0 file header; no code copied.",
+      "maintenance_evidence": "Exact HEAD ref resolved and file fetched 2026-10-02; no execution, release status or complete maintenance audit.",
+      "excluded_uses": [
+        "No wholesale code extraction, assets, compatibility, device or performance claim."
+      ]
+    },
+    {
+      "id": "threejs-xr-paint",
+      "url": "https://raw.githubusercontent.com/mrdoob/three.js/1ea31f304854ee3c85df39fdb3eaec584bba6d9b/examples/webxr_xr_paint.html",
+      "checked_on": "2026-10-02",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "retrieval_method": "GitHub connector fetch; public git ls-remote resolved HEAD",
+      "immutable_ref": "1ea31f304854ee3c85df39fdb3eaec584bba6d9b",
+      "authority": "Three.js maintainers",
+      "lineage": "threejs",
+      "kind": "official_implementation_source",
+      "admitted_claims": [
+        "Official XR paint example routes controller selection and world-space cursor positions into TubePainter moveTo/lineTo; size and color are renderer parameters. Color changes with performance.now."
+      ],
+      "admitted_role": "Independent engine-maintained adapter example only; not professional document editing, undo, persistence or deterministic replay evidence.",
+      "license_or_terms": "MIT repository license fetched at the same ref; no code/assets copied.",
+      "maintenance_evidence": "Exact HEAD ref resolved and file fetched 2026-10-02; no execution, release status or complete maintenance audit.",
+      "excluded_uses": [
+        "No wholesale code extraction, assets, compatibility, device or performance claim."
+      ],
+      "license_url": "https://raw.githubusercontent.com/mrdoob/three.js/1ea31f304854ee3c85df39fdb3eaec584bba6d9b/LICENSE"
+    }
+  ],
+  "schema": "xr-foundry.spatial_drawing_source_manifest.v1",
+  "retrieval_attempts": [
+    {
+      "id": "open-brush-commands",
+      "url": "https://raw.githubusercontent.com/icosa-foundation/open-brush/main/Assets/Scripts/Commands/BaseCommand.cs",
+      "checked_on": "2026-10-02",
+      "retrieval_method": "web search/open",
+      "fetch_status": "failed_cache_miss",
+      "observed_facts": [],
+      "proposed_role": "Unverified command path; find the actual path and pin before citing undo semantics.",
+      "lineage": "tilt-brush",
+      "license_or_terms": "Not inspected.",
+      "immutable_ref": null,
+      "resolution": "Subsequently fetched at pinned ref; see open-brush-command-tree. Initial web failure retained as history."
+    },
+    {
+      "id": "threejs-vr-paint",
+      "url": "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/webxr_vr_paint.html",
+      "checked_on": "2026-10-02",
+      "fetch_status": "failed_internal_error",
+      "role": "Not counted as evidence; official example page also inaccessible.",
+      "resolution": "Connector returned 404 for old path; directory inspection found webxr_xr_paint.html, fetched at pinned ref as threejs-xr-paint."
+    },
+    {
+      "id": "remote-assist-raw",
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/dynamics-365-mixed-reality/main/mr-docs/remote-assist/add-annotations-hololens.md",
+      "checked_on": "2026-10-02",
+      "fetch_status": "failed_cache_miss",
+      "role": "GitHub rendered page was fetched; raw failure retained for audit."
+    }
+  ]
+}

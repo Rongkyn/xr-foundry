@@ -1,0 +1,47 @@
+{
+  "status": "unadopted_proposal",
+  "family": "spatial-drawing",
+  "recommended_current_outcome": "reference_only",
+  "reviewed_on": "2026-10-02",
+  "source_manifest": "docs/standards/spatial-drawing/source-manifest.json",
+  "consumer_contexts": [
+    "Standalone immersive painting: controller-authored free-space artwork with brush selection, local undo and document save.",
+    "Embedded spatial annotation: mark up a host-owned model or training scene with constrained brushes and host-owned target references; no standalone art application or scene ownership."
+  ],
+  "proposed_common_kernel": [
+    "Stroke/document identities and ordered finite point samples with explicit coordinate and unit metadata.",
+    "Brush definition references and typed stroke parameters independent of shaders and assets.",
+    "Atomic document edits and bounded local undo/redo, subject to source gate.",
+    "Validated document snapshot and replay boundaries, subject to source gate."
+  ],
+  "configurable_variation": [
+    "Sampling/filtering, pressure mapping and point budgets.",
+    "Allowed brush definitions, host target references and edit policy.",
+    "Input, rendering, storage/format and optional collaboration adapters."
+  ],
+  "excluded_project_specific": [
+    "Product brush libraries, shaders, artwork, scenes, UI layouts, branding and platform accounts.",
+    "Multiplayer authority, transport, conflict resolution and shared anchors.",
+    "Content-pack installation and scene placement ownership."
+  ],
+  "checks": {
+    "recurring_cross_project_problem": true,
+    "common_kernel_from_multiple_positive_sources": false,
+    "no_consumer_project_raw_material": true,
+    "no_product_taxonomy_in_core": true,
+    "configuration_or_extension_seams": true,
+    "clean_consumer_validation_planned": true,
+    "licensing_and_provenance_reviewed": false
+  },
+  "blockers": [
+    "Complete Open Brush dependency/asset, persistence, test and maintenance audit at the pinned implementation revision; selected stroke and command files are now inspected.",
+    "Fetch complete independent Blender evidence and confirm revision; excerpts alone do not close this gate.",
+    "Resolve every mandatory capability in source-to-capability.md, removing or deferring unsupported requirements.",
+    "Review coordinate, undo and persistence semantics independently; approve public implementation task before any scaffold."
+  ],
+  "non_claims": [
+    "This worksheet is intentionally not an instance of the authoritative system-admission schema, whose decision field requires admission. No admission record is added.",
+    "No package identity, implementation, compatibility, maturity, release, runtime, device, fidelity or performance claim.",
+    "Proposed consumers are proof obligations, not existing validated consumers."
+  ]
+}

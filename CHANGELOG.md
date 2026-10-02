@@ -5,6 +5,13 @@ live in each package's `CHANGELOG.md`.
 
 ## Unreleased
 
+- Proposed spatial drawing and annotation (`NEXT-SPATIAL-DRAWING`) with a bounded
+  stroke-document design, source retrieval and lineage records, an unadopted
+  admission worksheet, and planned verification/lesson dispositions. Open Brush
+  source and an independent Three.js adapter example are pinned; incomplete
+  source and consumer evidence remains explicit. No package IDs, implementation,
+  authoritative admission, compatibility or device claims are added.
+
 - Passed the source gate for Platform services (`docs/standards/platform-services/`,
   WI-027: 12 sources across Meta, PICO, Steamworks, Apple Game Center and StoreKit,
   Unity Gaming Services, store policy, and two maintained open-source layers;

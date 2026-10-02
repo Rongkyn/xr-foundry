@@ -132,6 +132,19 @@
       ],
       "package_ids": [],
       "exact_next_action": "A person confirms the URLs, page paths, section anchors, version pins, and open-source maintenance state in docs/standards/quality-tiers/source-manifest.json and admission.draft.json; then run the cross-project admission gate on the draft and decide whether tier identity, the capability-descriptor gating model, and the frame-budget policy are stable enough to admit a Core blueprint and one Unity adapter blueprint."
+    },
+    {
+      "id": "NEXT-SPATIAL-DRAWING",
+      "title": "Spatial drawing and annotation document candidate",
+      "state": "proposal",
+      "objective": "Assess a source-supported stroke document and edit kernel for standalone immersive painting and embedded spatial annotation, separating input, rendering, file formats and optional collaboration from reusable state.",
+      "source_requirements": [
+        "Open Brush immutable source revision, Apache-2.0 and per-file dependency/asset audit; MultiBrush remains experience-only and shares Tilt Brush lineage.",
+        "Complete independent Blender Grease Pencil architecture and edit evidence plus W3C InkML trace and coordinate metadata; do not treat search excerpts as a closed source gate.",
+        "Source-to-capability review for stroke parameters, atomic edits, undo, replay and persistence; exact consumer and named-device evidence remain separate."
+      ],
+      "package_ids": [],
+      "exact_next_action": "Review docs/standards/spatial-drawing/admission.draft.json and close its source gaps with pinned evidence; narrow or defer unsupported kernel clauses before an authoritative admission and public implementation task."
     }
   ]
 }
