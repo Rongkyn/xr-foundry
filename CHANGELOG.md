@@ -5,6 +5,11 @@ live in each package's `CHANGELOG.md`.
 
 ## Unreleased
 
+- Audited Blender Grease Pencil for WI-033 at an immutable 4.3 source revision,
+  documenting actual attributes, edit/undo/storage paths, file licenses and test
+  assertions. Stable identity, transaction/replay and strict history-memory
+  guarantees remain explicit source gaps; no Blender or Unity tests were run.
+
 - Added open research item WI-033 for independent Blender Grease Pencil
   document/edit/undo evidence, with a bounded documentation-only audit and
   explicit negative outcomes. The spatial-drawing source gate remains open.
