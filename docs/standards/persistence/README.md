@@ -1,8 +1,13 @@
 # Persistence package-family standard
 
-Status: source-gate review
+Status: implemented, incubating; released in `unity-next-systems-v0.1.0`
 
 Implementation Issue: [#54](https://github.com/Lingkyn/xr-foundry/issues/54)
+
+**Start here: [install Persistence and save your first DTO](quickstart.md).**
+The walkthrough installs only Persistence Core and its Unity local-file adapter,
+shows the complete consumer script and configuration, and separates recorded
+Windows Editor evidence from the smoke run you perform in your own project.
 
 This standard defines reusable save-data mechanics, not the game-specific state
 that a title chooses to save. It is derived only from the positive public sources
@@ -28,11 +33,12 @@ scene graph, mutate authored ScriptableObject assets, provide a save-slot UI, sy
 cloud accounts, resolve multiplayer authority, or claim encryption/tamper
 resistance.
 
-## Planned package boundary
+## Package boundary
 
-Package identifiers remain unreserved until this source gate is independently
-reviewed. The admitted blueprint is expected to separate an engine-light Core from
-a thin Unity adapter:
+The released packages are `com.lingkyn.persistence.core` and
+`com.lingkyn.persistence.unity`, both version `0.1.0` and still `incubating`.
+The [release record](../../releases/unity-next-systems-v0.1.0.md) documents the
+immutable batch. The engine-light Core and thin Unity adapter have these roles:
 
 | Layer | Owns | Must not own |
 | --- | --- | --- |

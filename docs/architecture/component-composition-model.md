@@ -156,12 +156,16 @@ Cross-family behavior belongs in a named binding or, once reusable, a dedicated
 adapter component. It must not be hidden inside a renderer, global service locator,
 or concrete domain dependency.
 
-The Unity reference composition declares and implements three consumer-owned
-adapter boundaries:
+The Unity reference composition declares seven binding edges implemented by six
+consumer-owned adapter sources:
 
 - semantic interaction to Inventory intents;
-- Inventory state to the persistence contract; and
-- Settings policy to semantic interaction.
+- Inventory state to the persistence contract;
+- Settings policy to semantic interaction;
+- Unity Input System observations to semantic interaction;
+- Inventory presentation to UGUI rendering and from that renderer to the XR
+  surface (two edges implemented by one adapter); and
+- Settings snapshots to persistence and rehydration.
 
 Each implementation is a small, explicit C# adapter under the composition's
 consumer root. The v0.2 resolver confines that source to the same composition,
@@ -188,14 +192,22 @@ XFCM keeps these claims separate:
 4. **Runtime integrated:** binding tests pass in the exact consumer composition.
 5. **Device verified:** named runtime, input, renderer and device evidence passes.
 
-The committed 13-component reference system remains at level 2. A separate
-eight-package endpoint consumer has local Editor import/compilation and binding
-integration evidence for one exact source revision, including a backup-recovery
-path. That bounded level-3/4 evidence is recorded in the
-[double-loop experiment receipt](../validation/experiments/2026-09-04-xag-xfcm-01-double-loop-result.md)
-and does not promote the unexecuted components or the whole composition. Existing
-evidence for an individual package likewise does not automatically promote a
-composition.
+The committed 13-component reference system remains at level 2. The current
+materializer embeds 11 packages, excluding the two foundation components. The
+[consumer guide](../../compositions/unity/reference-system/consumer/README.md)
+derives its complete test inventory from source; copied source and planned cases
+are not execution evidence.
+
+Historical bounded level-3/4 evidence includes the
+[earlier double-loop receipt](../validation/experiments/2026-09-04-xag-xfcm-01-double-loop-result.md)
+and the subsequent experiment published with
+[PR #88](https://github.com/Lingkyn/xr-foundry/pull/88). The latter records an
+11-package consumer and 146 EditMode plus 4 PlayMode cases across seven named
+assemblies on its exact Unity `6000.3.19f1` macOS/Null-graphics tuple. Those are
+historical executed cases, not the current source inventory or all embedded
+package tests. Neither record promotes later package changes, unexecuted
+components or the whole composition. Individual package evidence likewise does
+not automatically promote a composition.
 
 ## MCP boundary
 
@@ -239,7 +251,7 @@ cost before the current Unity graph has proved its typed integration seams.
 
 The next safe slices are:
 
-1. expand the clean consumer from the eight binding-endpoint packages to the exact
+1. expand the clean consumer from its current 11 embedded packages to the exact
    13-component lock and bind its generated Unity package lock;
 2. make lifecycle configuration, start, failure rollback, and reverse stop an
    executable composition contract;

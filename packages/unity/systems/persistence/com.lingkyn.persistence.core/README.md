@@ -2,6 +2,12 @@
 
 Engine-light persistence core with no `UnityEngine` dependency.
 
+For a first Unity local-file save, follow the
+[Persistence quickstart](https://github.com/Lingkyn/xr-foundry/blob/main/docs/standards/persistence/quickstart.md).
+It pins Core and the Unity adapter together, supplies a complete consumer script,
+and explains the exact Windows Editor evidence. Core alone has no file store;
+use it alone only when supplying your own `ISaveStore` and codec.
+
 ## Public surface
 
 - `SaveSlotId`: validated logical slot identifier with strict character and length limits.

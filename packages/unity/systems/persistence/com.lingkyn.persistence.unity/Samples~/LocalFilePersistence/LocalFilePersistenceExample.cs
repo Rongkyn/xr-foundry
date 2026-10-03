@@ -1,5 +1,6 @@
 using System;
 using Lingkyn.Persistence.Core;
+using Lingkyn.Persistence.Unity;
 using UnityEngine;
 
 namespace Lingkyn.Persistence.Samples

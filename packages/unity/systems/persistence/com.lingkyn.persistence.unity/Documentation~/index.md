@@ -2,6 +2,13 @@
 
 Unity adapter documentation for configuration authoring, JsonUtility DTO boundaries, persistent-data path policy, local-file commit capabilities, and recovery inspection.
 
+Start with the
+[Persistence quickstart](https://github.com/Lingkyn/xr-foundry/blob/main/docs/standards/persistence/quickstart.md)
+for installation, an Inspector configuration table, a complete consumer script,
+expected output, on-disk paths, and reset instructions. It uses the immutable
+release APIs and labels the historical Editor tests separately from your own
+smoke run. The reference below describes the source revision containing this file.
+
 ## Supported JsonUtility DTO tuple
 
 Supported shapes must satisfy all of the following:

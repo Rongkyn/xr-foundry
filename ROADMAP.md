@@ -108,9 +108,11 @@ did.
 ## Composition
 
 XFCM v0.2 gives every live package a colocated component manifest and resolves the
-Unity reference composition to a deterministic 13-component lock with three bound
-cross-family adapter sources. The bounded consumer experiment covers the eight
-packages at the binding endpoints in one Editor tuple. The composition keeps
+Unity reference composition to a deterministic 13-component lock with seven
+bindings backed by six adapter sources. The current materializer embeds 11
+packages. Historical consumer experiments cover only their named assemblies and
+recorded revisions; regenerate the current test inventory before running the
+[consumer](compositions/unity/reference-system/consumer/README.md). The composition keeps
 `runtime_ready: false` until whole-composition Unity evidence, a player build,
 and named-device evidence exist; each of those is a separate gate. See
 [`docs/architecture/component-composition-model.md`](docs/architecture/component-composition-model.md).

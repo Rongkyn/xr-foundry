@@ -19,13 +19,25 @@ Check the lock with:
 python scripts/compose_system.py --check --json
 ```
 
-The v0.2 lock proves 13-component structural resolution and binds all three
-consumer-owned adapter sources. It keeps `runtime_ready` false because the local
-Unity experiment covers only the eight packages needed at the binding endpoints.
-That experiment proves Editor import/script compilation and the named semantic
-integration tests for one exact revision, including a production
-`LocalFileSaveStore` recovery from a zero-byte primary file to a valid backup in a
-temporary directory. It does not prove a player build, all 13 components, general
-filesystem durability, XR input, renderer behavior, headset behavior, or
-named-device evidence. See the
-[double-loop result receipt](../../../docs/validation/experiments/2026-09-04-xag-xfcm-01-double-loop-result.md).
+The current v0.2 lock structurally resolves 13 components and seven bindings
+through six distinct consumer-owned adapter sources. The UGUI surface adapter
+implements two binding edges. The materializer embeds 11 packages; the two
+foundation components are outside this bounded harness.
+
+Follow the [consumer instructions](consumer/README.md) to materialize a separate
+project and derive every test assembly/count from its source. This operation
+copies source; it does not execute Unity or establish compatibility.
+
+`runtime_ready` remains false. The historical
+[double-loop result receipt](../../../docs/validation/experiments/2026-09-04-xag-xfcm-01-double-loop-result.md)
+records three earlier adapter paths, eight packages and its own exact test
+inventory/tuple. The later experiment published with [PR #88](https://github.com/Lingkyn/xr-foundry/pull/88)
+records an 11-package consumer and 146 EditMode plus 4 PlayMode cases across seven
+named assemblies. Both receipts remain bound to their recorded inputs; later
+source additions do not inherit those executions. Temporary-file backup recovery
+is bounded evidence, not general filesystem durability. Neither those receipts
+nor the current structural lock proves the complete 13-component runtime, a player build, controller or headset.
+
+If you only need save/load, start with the
+[Persistence quickstart](../../../docs/standards/persistence/quickstart.md)
+instead of installing this multi-family reference harness.

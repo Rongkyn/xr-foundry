@@ -2,6 +2,12 @@
 
 Incubating Unity adapter for `com.lingkyn.persistence.core`.
 
+**[Install and save your first DTO](https://github.com/Lingkyn/xr-foundry/blob/main/docs/standards/persistence/quickstart.md).**
+The quickstart includes both pinned package dependencies, configuration that
+allows a first save, a complete consumer script, save location, recovery/reset
+steps, and the exact historical Windows Editor evidence. It needs no other
+XR Foundry family.
+
 ## Claim ceiling
 
 This package proves only what its exact consumer tuple validates:
@@ -15,7 +21,7 @@ It does **not** claim crash durability, mobile/device behavior, cloud sync, auth
 
 ## Consumer wiring
 
-1. Create a `PersistenceUnityConfig` asset with schema id, current schema version, file extension, storage subdirectory, commit strategy, required capability, and declared migration edges.
+1. Create a `PersistenceUnityConfig` asset with **Create > Lingkyn > Persistence > Unity Config**. For a first save, use `RecoverableCopyReplace` with required capability `RecoverableReplace`, a dedicated storage subdirectory, and empty migration edges when no migration is needed. See the quickstart for all field values.
 2. Freeze consumer-owned plain DTO snapshots: concrete `[Serializable]` types with explicitly serialized fields only (public fields or `[SerializeField]`). Require strict UTF-8 payloads at decode. Unsupported shapes fail closed, including `UnityEngine.Object`, dictionaries, delegates, generic/polymorphic roots, cyclic graphs, and readonly serialized fields.
 3. Build `JsonUtilitySaveCodec<TState>` and consumer migrations implementing `ISaveMigration<TState>`.
 4. Create a coordinator through `PersistenceUnityFactory.CreateCoordinator(...)` with `PersistentDataRootProvider` or an injected test root.

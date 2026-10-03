@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Link the pinned Core + Unity quickstart from the package README and
+  documentation, including configuration, a copyable consumer script, and
+  historical evidence boundaries. No API, package version, or maturity change.
 - Added three EditMode tests named by the Persistence coverage map: a same-version
   round trip through an in-memory store, an integrity-provider failure surfacing as
   the Integrity stage before commit, and StageWrite and Flush failures reported as

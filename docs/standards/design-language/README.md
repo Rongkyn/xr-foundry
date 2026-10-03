@@ -58,17 +58,19 @@ derivation source.
 
 ## Reference implementation
 
-The Inventory UGUI adapter
-[`com.lingkyn.inventory.ugui`](../../../packages/unity/systems/inventory/com.lingkyn.inventory.ugui/)
-is the first target reference implementation. The currently landed `0.2.0` adapter
-predates the seam and does not yet map these tokens. The injectable `InventorySkin`
-seam — a `ScriptableObject` propagated across the panel, grid, slot, details, and
-action-menu views, with a translucent spatial-glass default palette — is proposed in
-[PR #81](https://github.com/Lingkyn/xr-foundry/pull/81), code-reviewed on that branch
-but not yet merged. Its rounded 9-slice sprite baking and State Gallery visual evidence
-are tracked in the editor pass [issue #82](https://github.com/Lingkyn/xr-foundry/issues/82),
-which gates that merge. This standard defines the target the adapter converges to, not a
-completed implementation.
+The current Inventory renderer adapters contain injectable skin seams:
+
+- UGUI [`InventorySkin`](../../../packages/unity/systems/inventory/com.lingkyn.inventory.ugui/Runtime/InventorySkin.cs)
+  is a `ScriptableObject` with canonical default colors and optional font/9-slice
+  sprites. `InventoryShellView.ApplySkin` propagates it through the panel views.
+- UI Toolkit [`InventoryUiToolkitSkin`](../../../packages/unity/systems/inventory/com.lingkyn.inventory.uitoolkit/README.md#injecting-a-skin)
+  provides the peer renderer seam and canonical default values.
+
+These implementations are present in the tree; the former unmerged-proposal
+wording no longer describes them. Optional artwork and visual evidence remain
+separate: a source-level seam does not prove rounded-sprite rendering, State
+Gallery appearance, accessibility outcomes, or any headset tuple. Evaluate the
+exact renderer/package revision in a consumer before making those claims.
 
 ## Status and non-claims
 

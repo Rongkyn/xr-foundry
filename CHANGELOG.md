@@ -5,6 +5,14 @@ live in each package's `CHANGELOG.md`.
 
 ## Unreleased
 
+- Added a release-pinned, two-package Persistence quickstart with complete
+  consumer save/load code, working first-save configuration, restart/recovery
+  checks and explicit historical evidence boundaries. Fixed the sample's missing
+  Unity-adapter namespace import and corrected stale family, composition and
+  skin-seam entry facts. Consumer test counts now come from the existing source
+  audit command instead of a partial hard-coded inventory. Static C# compilation
+  is recorded separately from unexecuted Unity import/runtime gates.
+
 - Passed the source gate for Platform services (`docs/standards/platform-services/`,
   WI-027: 12 sources across Meta, PICO, Steamworks, Apple Game Center and StoreKit,
   Unity Gaming Services, store policy, and two maintained open-source layers;

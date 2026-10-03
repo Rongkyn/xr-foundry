@@ -19,6 +19,7 @@ evidence remain explicit gates.
 
 | Need | Entry point |
 | --- | --- |
+| Save and reload a small Unity DTO with two packages | [Persistence quickstart](docs/standards/persistence/quickstart.md) |
 | Choose an available system or package | [`package-catalog.json`](package-catalog.json) |
 | Compose packages as one system | [`XFCM v0.2`](docs/architecture/component-composition-model.md), [`component-catalog.json`](component-catalog.json), and the [Unity reference composition](compositions/unity/reference-system/) |
 | Find reusable reference material | [`reference-catalog.json`](reference-catalog.json) |
@@ -70,16 +71,19 @@ into one versioned product-line graph. A consumer composition selects fixed
 components plus exactly one renderer and XR-surface variant, then resolves the graph
 into a deterministic lock.
 
-The first [Unity reference composition](compositions/unity/reference-system/)
-selects the UGUI route and structurally resolves 13 components. UI Toolkit remains
-a peer option rather than an accidental cumulative dependency. Its three
-cross-family boundaries now resolve to consumer-owned typed adapter sources, and
-the v0.2 lock binds each source path, assembly, and SHA-256. A separate clean
-consumer exercises the eight packages needed at those binding endpoints. That
-bounded evidence includes one production `LocalFileSaveStore` zero-byte-primary
-backup-recovery path in a temporary directory. It does not cover all 13
-components, general filesystem durability, a player build, XR input, rendering,
-or a device, so the composition deliberately keeps `runtime_ready: false`.
+The [Unity reference composition](compositions/unity/reference-system/) selects
+the UGUI route and structurally resolves 13 components. Its seven bindings use
+six consumer-owned typed adapter sources; one adapter serves both renderer and
+XR-surface bindings. The v0.2 lock binds source paths, assemblies and SHA-256
+values. UI Toolkit remains a peer option, not a cumulative dependency.
+
+The current [consumer template](compositions/unity/reference-system/consumer/)
+materializes 11 packages for those paths. Generate its test inventory from source
+before running it; historical experiment counts are not the current inventory.
+Recorded experiments prove only their named inputs, assemblies and tuples,
+including bounded temporary-filesystem backup recovery. The full composition
+still has `runtime_ready: false`; structural resolution and a materialized project
+do not prove all 13 components, current-revision Unity execution or a device.
 
 XFCM keeps runtime communication strongly typed and in process. JSON manifests are
 the composition/control plane. MCP may later expose that control plane to editors
@@ -100,9 +104,10 @@ consumer evidence, and each XR renderer/device tuple needs its own real-device
 receipt. No old package path or renderer-ambiguous XR compatibility layer is part
 of the active repository surface.
 
-The cataloged Unity packages form the
-[`Unity first batch`](docs/foundry/batches/unity-first-batch.v1.json). A batch
-release is an immutable discovery/install surface; it does not promote package
+The [batch registry](docs/foundry/batches/batch-registry.v1.json) records both the
+[`Unity first batch`](docs/foundry/batches/unity-first-batch.v1.json) and
+[`Unity next systems`](docs/foundry/batches/unity-next-systems.v1.json), which
+contains Persistence, Settings and Interaction. A batch release is an immutable discovery/install surface; it does not promote package
 maturity or inherit device claims. The
 [`Foundry V1 production line`](docs/foundry/README.md) governs how later package
 families move from positive-source proposal to independently reviewed release.
@@ -125,9 +130,11 @@ reads as a single product rather than one look per package. Vision Pro is the pr
 visual reference; PICO and Meta Horizon OS are the primary interaction references. Any
 package with UI defaults to it: keep visual vocabulary in the renderer adapter, expose
 one injectable skin/theme seam that maps the shared tokens, and ship a default skin
-with the canonical values. The Inventory UGUI adapter is the first target reference
-implementation; its injectable skin seam is proposed in
-[PR #81](https://github.com/Lingkyn/xr-foundry/pull/81) and not yet merged.
+with the canonical values. The current Inventory adapters include the UGUI
+[`InventorySkin`](packages/unity/systems/inventory/com.lingkyn.inventory.ugui/Runtime/InventorySkin.cs)
+and [UI Toolkit skin seam](packages/unity/systems/inventory/com.lingkyn.inventory.uitoolkit/README.md#injecting-a-skin).
+These are implemented extension points; their presence does not supply current
+visual, device or accessibility-outcome evidence.
 
 `incubating` means a package is available for evaluation but does not yet promise
 API compatibility. Candidate promotion requires repository validation, tests, and
@@ -135,6 +142,12 @@ a clean independent Unity consumer compile. XR behavior additionally needs real
 device evidence before a stable claim.
 
 ## Install for evaluation
+
+For a first install, use the [two-package Persistence walkthrough](docs/standards/persistence/quickstart.md):
+it supplies a concrete immutable pin, working configuration and consumer-owned
+save/load code. The complete selector reference below lists available modules;
+choose only the packages your consumer needs and their dependencies. It is not a
+minimal project manifest.
 
 Pin a reviewed commit SHA rather than `main`:
 

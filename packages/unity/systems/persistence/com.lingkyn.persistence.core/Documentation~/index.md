@@ -13,6 +13,12 @@ The package intentionally excludes storage backends, Unity adapter code, UI, clo
 encryption, and project-specific configuration. See the package `README.md` for
 the full public surface.
 
+New Unity consumers can use the
+[Persistence quickstart](https://github.com/Lingkyn/xr-foundry/blob/main/docs/standards/persistence/quickstart.md)
+for a pinned Core + Unity install, asset configuration, runnable caller, and
+save/load smoke procedure. The receipt history and current-source behavior have
+different revision boundaries; the guide identifies both.
+
 ## Save pipeline
 
 `SaveCoordinator<TState>.Save(slotId, snapshot, cancellationToken)` runs the

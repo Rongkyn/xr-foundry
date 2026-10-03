@@ -1,5 +1,8 @@
 # XR Foundry documentation index
 
+For a first working package consumer, follow the [Persistence quickstart](standards/persistence/quickstart.md):
+install two pinned packages, configure a local store, and save/reload one DTO.
+
 This directory holds the standards, architecture, validation evidence,
 production-line, contribution, device-lab, governance, RFC, and release records
 that back the root catalogs. Machine-readable JSON files remain the authority for

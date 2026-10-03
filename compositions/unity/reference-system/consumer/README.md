@@ -7,13 +7,17 @@ generated `Library`, `Logs`, and `ProjectSettings` state cannot contaminate the
 repository validator.
 
 ```bash
-python scripts/materialize_reference_consumer.py --output /private/tmp/xr-foundry-reference-consumer
+python scripts/materialize_reference_consumer.py --output ../xr-foundry-reference-consumer
+python scripts/audit_unity_test_inventory.py ../xr-foundry-reference-consumer
 ```
 
-The consumer exercises the packages needed by six typed composition paths. It
-still does not prove the complete 13-component XR composition or any headset
-behavior. The exact editor tuple for this experiment is
-Unity `6000.3.19f1` on macOS Editor with the Null graphics device.
+Run these commands from the repository root. Choose a new output directory
+outside the checkout; the materializer refuses an existing output. It embeds 11
+packages for seven binding edges implemented by six adapter sources. The template
+pins Unity `6000.3.19f1`; it does not prove the complete 13-component composition.
+Historical macOS Editor/Null-graphics results belong to their recorded revisions,
+not automatically to this template revision. No Unity run is performed by either
+command above.
 
 The harness contains six production adapter paths:
 
@@ -39,20 +43,25 @@ PlayMode result must therefore pass `scripts/verify_unity_test_results.py` in
 addition to the Unity process exit code. The caller must use a result path that did
 not exist before the run, record the Unix epoch immediately before launching
 Unity, and supply that boundary together with the source-audited exact test count
-and Assembly name. Each assembly is verified separately; the current inventory
-is:
+and assembly name. Each assembly is verified separately. Derive the complete
+inventory from the materialized project using the command above, or emit one mode
+for a CI matrix:
 
-| Assembly | Mode | Exact cases |
-| --- | --- | ---: |
-| `Lingkyn.Interaction.Core.Editor.Tests` | EditMode | 21 |
-| `Lingkyn.Interaction.Unity.Editor.Tests` | EditMode | 17 |
-| `Lingkyn.Inventory.Presentation.Editor.Tests` | EditMode | 5 |
-| `Lingkyn.Settings.Core.Editor.Tests` | EditMode | 29 |
-| `Lingkyn.Settings.Unity.Editor.Tests` | EditMode | 8 |
-| `XRFoundry.ReferenceSystem.EditMode.Tests` | EditMode | 71 |
-| `XRFoundry.ReferenceSystem.PlayMode.Tests` | PlayMode | 4 |
+```bash
+python scripts/audit_unity_test_inventory.py ../xr-foundry-reference-consumer --mode EditMode --github-matrix
+python scripts/audit_unity_test_inventory.py ../xr-foundry-reference-consumer --mode PlayMode --github-matrix
+```
 
-That is 151 EditMode cases plus 4 PlayMode cases, or 155 total. Changing the
-test inventory requires changing the expected count from a source audit, not
-learning it from the result under test. A passing Editor harness is not a player,
-controller or headset claim.
+The audit includes both the reference consumer's tests and all embedded package
+test assemblies. A list containing only selected binding-related assemblies is
+not the whole project inventory. Do not reuse a historical total or learn the
+expected count from the XML being checked. Source-audited counts are planned
+cases, not passed tests.
+
+To execute the assemblies with a licensed pinned Editor, use the existing
+[Unity gate runner](../../../../docs/validation/run-unity-gates.md), which
+materializes its own disposable consumer and verifies fresh per-assembly results.
+This does not establish a player, physical-controller or headset claim.
+
+For a smaller first consumer that only saves and loads one DTO, use the
+[Persistence quickstart](../../../../docs/standards/persistence/quickstart.md).
