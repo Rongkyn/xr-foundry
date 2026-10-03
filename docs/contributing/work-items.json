@@ -1208,6 +1208,54 @@
       },
       "evidence": "The audit provides revision-bound primary evidence, license and lineage observations, a test inventory, capability-by-capability support and limitations, explicit unverified gaps, and recorded validation results. Repository checks validate structure, not source truth or source-gate admission; research completion can report unsupported requirements and does not complete milestone 2b.",
       "done_proof": null
+    },
+    {
+      "id": "WI-034",
+      "title": "Compare spatial drawing, annotation and collaboration source boundaries",
+      "milestone_batch": "2b",
+      "needs": "none",
+      "decision_class": "routine",
+      "size": "medium",
+      "status": "open",
+      "depends_on": [
+        "WI-033"
+      ],
+      "read_first": [
+        "AGENTS.md",
+        "docs/contributing/work-items.md",
+        "docs/foundry/README.md",
+        "docs/foundry/system-admission.md",
+        "docs/foundry/queue/next-batch.json",
+        "docs/standards/lessons/lessons-register.json",
+        "docs/standards/spatial-drawing/README.md",
+        "docs/standards/spatial-drawing/source-manifest.json",
+        "docs/standards/spatial-drawing/verification-contract.md"
+      ],
+      "allowed_paths": [
+        "docs/standards/spatial-drawing/",
+        "docs/foundry/queue/next-batch.json",
+        "docs/contributing/work-items.json",
+        "CHANGELOG.md"
+      ],
+      "steps": [
+        "After WI-033 produces its bounded audit, compare independent primary evidence for retained spatial drawing, host-bound 3D annotation and collaborative creation. Audit selected Open Brush serialization, migration, tests, maintenance and provenance; correct source comments that disagree with implementation. Pin implementation observations and distinguish original research from maintained reusable code.",
+        "Record a comparative review, source manifests and per-capability support. Count related forks as one lineage; separate code, assets, dependencies and documentation licenses. Use factual original summaries and source links, never copied implementation or assets. Treat unavailable sources and unexecuted upstream tests explicitly.",
+        "Apply the existing system-admission criteria and all current lessons to narrow the proposed common kernel, configuration and adapter boundaries. Identify unsupported mandatory requirements and defer or remove them from the proposed first prototype. Describe two materially different clean-consumer experiments, named verification cases, and the exact remaining admission and implementation steps. This is a source-gate recommendation, not an admission or implementation authorization.",
+        "Update only the spatial-drawing queue proposal details if evidence changes its next action; keep state proposal, package_ids empty, family reference_only and proposal_not_admitted. Do not create package IDs, blueprints, staged implementation, source authority, governance rules, membership, release, compatibility or device claims.",
+        "Run acceptance commands, record results and reviewed repository revision in comparative-review.md, and update only WI-034 closeout fields when the durable evidence supports completion. Keep WI-033 changes in its own commit. Repository tests check structure, not source truth; record independent advisory review separately from required human GitHub approval."
+      ],
+      "acceptance": {
+        "commands": [
+          "python scripts/validate_repository.py --json",
+          "python -m unittest discover -s tests -p \"test_*.py\"",
+          "python scripts/merge_readiness.py --base origin/main --head HEAD --markdown"
+        ],
+        "artifacts": [
+          "docs/standards/spatial-drawing/comparative-review.md"
+        ]
+      },
+      "evidence": "Revision-bound source comparison, corrected provenance, evidence-to-capability decisions, remaining gate checklist, proposed clean-consumer verification and recorded repository validation; no system admission or runtime claim.",
+      "done_proof": null
     }
   ]
 }
