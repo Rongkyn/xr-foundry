@@ -2,17 +2,17 @@
   "status": "unadopted_proposal",
   "family": "spatial-drawing",
   "recommended_current_outcome": "reference_only",
-  "reviewed_on": "2026-10-02",
+  "reviewed_on": "2026-10-03",
   "source_manifest": "docs/standards/spatial-drawing/source-manifest.json",
   "consumer_contexts": [
     "Standalone immersive painting: controller-authored free-space artwork with brush selection, local undo and document save.",
     "Embedded spatial annotation: mark up a host-owned model or training scene with constrained brushes and host-owned target references; no standalone art application or scene ownership."
   ],
   "proposed_common_kernel": [
-    "Stroke/document identities and ordered finite point samples with explicit coordinate and unit metadata.",
-    "Brush definition references and typed stroke parameters independent of shaders and assets.",
-    "Atomic document edits and bounded local undo/redo, subject to source gate.",
-    "Validated document snapshot and replay boundaries, subject to source gate."
+    "A retained document with explicit identities, ordered finite spatial samples, channel semantics and local coordinate metadata.",
+    "A limited brush-reference and parameter contract independent of shaders and art assets.",
+    "Whole-stroke create/remove/replace through the existing attributed intent requirement; local count-bounded undo/redo as a proposed module.",
+    "Versioned snapshot conversion and validation boundary; canonical operation replay and persistent history deferred."
   ],
   "configurable_variation": [
     "Sampling/filtering, pressure mapping and point budgets.",
@@ -31,17 +31,22 @@
     "no_product_taxonomy_in_core": true,
     "configuration_or_extension_seams": true,
     "clean_consumer_validation_planned": true,
-    "licensing_and_provenance_reviewed": false
+    "licensing_and_provenance_reviewed": true
   },
   "blockers": [
-    "Complete Open Brush dependency/asset, persistence, test and maintenance audit at the pinned implementation revision; selected stroke and command files are now inspected.",
-    "Fetch complete independent Blender evidence and confirm revision; excerpts alone do not close this gate.",
-    "Resolve every mandatory capability in source-to-capability.md, removing or deferring unsupported requirements.",
-    "Review coordinate, undo and persistence semantics independently; approve public implementation task before any scaffold."
+    "Review the completed pinned Blender, Open Brush and Slicer evidence against each precise mandatory kernel clause in source-to-capability.md; distinguish recurring functions from stronger Foundry validation/ownership guarantees.",
+    "Resolve stable stroke identity, snapshot ownership, exact coordinate conversion and failure semantics in a narrow proposed contract. The audits identify concrete upstream differences, not an automatically inherited API.",
+    "Record the authoritative system-admission decision and public implementation task only after the existing criteria are satisfied; then create the admitted blueprint and staged implementation with named tests."
   ],
   "non_claims": [
     "This worksheet is intentionally not an instance of the authoritative system-admission schema, whose decision field requires admission. No admission record is added.",
     "No package identity, implementation, compatibility, maturity, release, runtime, device, fidelity or performance claim.",
     "Proposed consumers are proof obligations, not existing validated consumers."
-  ]
+  ],
+  "completed_research": [
+    "WI-033: full pinned Blender implementation audit replaces excerpt-only behavioral evidence while retaining documentation retrieval failures.",
+    "WI-034: bounded Open Brush persistence, migration, tests, maintenance and rights review; Slicer/Hubs/NAF/historical A-Painter comparison; dated standards and original research.",
+    "Open Brush seed serialization corrected from actual writer; exact first-prototype and two-consumer evidence plan recorded."
+  ],
+  "provenance_boundary": "Original architecture facts only; no code, assets, data or dependencies selected for reuse. Any future copied or adapted artifact requires its own exact-file/transitive rights and notice review. Whole-repository certification of unselected assets is not claimed."
 }

@@ -1216,7 +1216,7 @@
       "needs": "none",
       "decision_class": "routine",
       "size": "medium",
-      "status": "open",
+      "status": "done",
       "depends_on": [
         "WI-033"
       ],
@@ -1255,7 +1255,7 @@
         ]
       },
       "evidence": "Revision-bound source comparison, corrected provenance, evidence-to-capability decisions, remaining gate checklist, proposed clean-consumer verification and recorded repository validation; no system admission or runtime claim.",
-      "done_proof": null
+      "done_proof": "docs/standards/spatial-drawing/comparative-review.md"
     }
   ]
 }

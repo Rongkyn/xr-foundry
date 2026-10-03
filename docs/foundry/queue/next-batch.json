@@ -139,12 +139,12 @@
       "state": "proposal",
       "objective": "Assess a source-supported stroke document and edit kernel for standalone immersive painting and embedded spatial annotation, separating input, rendering, file formats and optional collaboration from reusable state.",
       "source_requirements": [
-        "Open Brush immutable source revision, Apache-2.0 and per-file dependency/asset audit; MultiBrush remains experience-only and shares Tilt Brush lineage.",
-        "Complete independent Blender Grease Pencil architecture and edit evidence plus W3C InkML trace and coordinate metadata; do not treat search excerpts as a closed source gate.",
-        "Source-to-capability review for stroke parameters, atomic edits, undo, replay and persistence; exact consumer and named-device evidence remain separate."
+        "Review completed pinned Open Brush and Blender audits, Slicer annotation evidence and dated W3C models; preserve exact licenses, historical revisions and selected-file boundaries. MultiBrush remains experience-only.",
+        "Assess every mandatory kernel clause using source-to-capability.md; distinguish stable identities from array indices, snapshot restore from canonical replay, count limits from hard byte budgets, and annotation binding from shared anchors.",
+        "Keep Hubs/NAF, Yjs and original undo research as collaboration boundary evidence; admit no transport or concurrency guarantees from product labels. Separate later exact-consumer and named-device evidence."
       ],
       "package_ids": [],
-      "exact_next_action": "Review docs/standards/spatial-drawing/admission.draft.json and close its source gaps with pinned evidence; narrow or defer unsupported kernel clauses before an authoritative admission and public implementation task."
+      "exact_next_action": "Review comparative-review.md and the narrowed source-to-capability matrix; resolve remaining identity/ownership/coordinate/failure semantics before the authoritative admission record and public implementation task. The first-prototype plan is unexecuted; package_ids remain empty."
     }
   ]
 }

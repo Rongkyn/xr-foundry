@@ -13,11 +13,13 @@ recurring need is retaining and editing marks independently of an application,
 input rig and renderer. Standalone immersive painting and embedded annotation of
 a host-owned model are materially different consumers. Neither is validated here.
 
-Open Brush is positive implementation material to inspect, not a reusable UPM
-package to transplant. MultiBrush is a useful collaboration experience reference;
+Open Brush is reviewed implementation evidence, not a reusable UPM package to
+transplant. Read the [comparative review](comparative-review.md) for the updated
+source-gate assessment and [first experiment plan](prototype-plan.md). MultiBrush is a useful collaboration experience reference;
 its Tilt Brush ancestry supplies no independent architecture evidence. Blender
-provides an independent stroke-document lineage, and InkML supplies a normative
-trace/metadata vocabulary. Those sources motivate a candidate, not the complete
+provides an independent stroke-document lineage; Slicer provides annotation and
+opt-in snapshot-history evidence. Hubs illustrates transient owner-streamed ink.
+InkML supplies normative trace/metadata vocabulary. Those sources motivate a candidate, not the complete
 proposed API: see [source manifest](source-manifest.json) and
 [source-to-capability review](source-to-capability.md).
 
@@ -25,8 +27,8 @@ proposed API: see [source manifest](source-manifest.json) and
 
 | Layer | Owns | Does not own |
 | --- | --- | --- |
-| Engine-light document kernel | document/stroke identity, ordered point data, explicit space/units, brush references and typed parameters, validated edits, snapshots | Unity types, input devices, shaders, file IO, scene discovery |
-| Edit/history module, if source gate closes | atomic create/delete/replace/transform operations; bounded undo/redo and replay | global editor history, collaborative conflict resolution |
+| Engine-light document kernel | document/stroke identity, ordered point data, explicit space/units, brush references and typed parameters, validated edit boundary, snapshots | Unity types, input devices, shaders, file IO, scene discovery |
+| Edit/history module, if source gate closes | whole-stroke edits; bounded local undo/redo; replay separately deferred | global editor history, collaborative conflict resolution |
 | Input adapter | begin/sample/end/cancel gestures; tracking-validity and coordinate conversion; pressure/filter policies | direct state writes or product-wide input routing |
 | Renderer adapter | geometry/cache lifetime, brush definition resolution, mesh/shader policy | authoritative point data, undo history, product art assets |
 | Persistence/codec bridge | versioned DTO conversion, existing Persistence orchestration integration, explicit format loss diagnostics | a second storage framework, automatic cloud upload |
@@ -74,7 +76,7 @@ admission plus public implementation task permits blueprint/scaffold work under
 the existing process. [Verification contract](verification-contract.md) describes
 future obligations; every clause is currently unexecuted.
 
-The independent Blender evidence gap is available as **WI-033** in
-[work-items.json](../../contributing/work-items.json), reachable with the
-`ai_tokens_only` capability. It requests a bounded source audit, not an
-admission decision or implementation.
+**WI-033** is completed by the [pinned Blender audit](blender-source-audit.md).
+**WI-034** records the broader comparison, corrections and prototype plan in
+[work-items.json](../../contributing/work-items.json). Neither research completion
+is system admission or proof of external contributor participation.

@@ -3,8 +3,8 @@
   "scope": "Spatial drawing document and edit boundaries",
   "derivation_policy": "positive_external_public_sources_only",
   "consumer_material_allowed": false,
-  "checked_on": "2026-10-02",
-  "review_note": "Retrieval records distinguish fetched content, indexed excerpts and failure. Mutable main/latest pages and retrieved cached content are not immutable source pins or proof of current maintenance. No source code or assets are vendored. Existing admitted_role/admitted_claims field names below record bounded proposal observations, never authority to admit this family. Open Brush selected files and the corrected Three.js XR paint path were subsequently fetched at immutable refs through the GitHub connector; prior web failures remain retrieval history.",
+  "checked_on": "2026-10-03",
+  "review_note": "Bounded original architectural observations only; no source implementation or assets selected for copying. Source records distinguish complete pinned implementation review, dated standards, historical revisions, excerpts and failures. The admitted_role/admitted_claims field names are existing repository vocabulary, not family admission. Detailed audits and comparative-review.md record limitations and corrected stale comments.",
   "sources": [
     {
       "id": "open-brush-repository",
@@ -14,17 +14,17 @@
       "fetch_status": "fetched_page",
       "lineage": "tilt-brush",
       "license_or_terms": "Apache-2.0 at repository root; third-party code, assets and trademarks require separate audit.",
-      "immutable_ref": null,
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
       "authority": "Icosa Foundation / Tilt Brush authors",
       "kind": "public_primary_source",
-      "admitted_role": "Implementation candidate; current maintenance and dependency/test audit remain open.",
+      "admitted_role": "Implementation architecture comparison; bounded persistence, tests, maintenance and provenance audit completed in openbrush-source-audit.md.",
       "admitted_claims": [
         "Repository identifies Open Brush as a Tilt Brush fork. README documents Unity build prerequisites, experimental compatibility caveats and third-party replacements."
       ],
       "excluded_uses": [
         "No package admission, compatibility, performance or device evidence; no code/assets copied."
       ],
-      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+      "maintenance_evidence": "Pinned commit dated 2026-10-02; September 2026 stable/prerelease metadata and exact workflow outcome reviewed. No test/runtime result inferred; see openbrush-source-audit.md."
     },
     {
       "id": "open-brush-license",
@@ -57,9 +57,9 @@
       "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
       "authority": "Icosa Foundation / Tilt Brush authors",
       "kind": "public_primary_source",
-      "admitted_role": "Stroke data and brush reference comparison; counterexample to assuming deterministic saved geometry.",
+      "admitted_role": "Stroke attributes and brush references; its seed comment is stale, corrected by the actual serializer.",
       "admitted_claims": [
-        "StrokeData stores control points, color, brush GUID, size and scale; a geometry random seed is explicitly not currently serialized."
+        "StrokeData retains ordered control points, color, brush GUID, size and scale. Its nonserialization comment does not match SketchWriter, which serializes seeds; see open-brush-sketch-writer."
       ],
       "excluded_uses": [
         "No package admission, compatibility, performance or device evidence; no code/assets copied."
@@ -98,14 +98,15 @@
       "fetch_detail": "Both normalized and double-slash paths failed direct open (normalized path returned 402). Indexed excerpt retrieved.",
       "authority": "Blender Foundation",
       "kind": "public_primary_source",
-      "admitted_role": "Excerpt-only comparison pending full review: Independent implementation-documentation comparison, pending complete pinned review.",
+      "admitted_role": "Historical navigation/excerpt only, not counted toward the mandatory kernel; superseded for behavioral evidence by pinned implementation audit.",
       "admitted_claims": [
         "Official indexed architecture describes drawings as stroke sets with point position, radius, opacity, color and stroke-relative time attributes."
       ],
       "excluded_uses": [
         "No package admission, compatibility, performance or device evidence; no code/assets copied."
       ],
-      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified.",
+      "resolution": "Original documentation retrieval remains incomplete; complete pinned implementation evidence now reviewed in blender-source-audit.md and blender-pinned-* entries. No failed documentation fetch is relabeled successful."
     },
     {
       "id": "blender-migration",
@@ -119,14 +120,15 @@
       "fetch_detail": "Direct fetch returned 402.",
       "authority": "Blender Foundation",
       "kind": "public_primary_source",
-      "admitted_role": "Excerpt-only comparison pending full review: Migration and stable-identity hazards.",
+      "admitted_role": "Historical navigation/excerpt only, not counted toward the mandatory kernel; superseded for behavioral evidence by pinned implementation audit.",
       "admitted_claims": [
         "4.3 migration moves stroke/point data to curve/point attributes and warns that references can become invalid after structural changes."
       ],
       "excluded_uses": [
         "No package admission, compatibility, performance or device evidence; no code/assets copied."
       ],
-      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified.",
+      "resolution": "Original documentation retrieval remains incomplete; complete pinned implementation evidence now reviewed in blender-source-audit.md and blender-pinned-* entries. No failed documentation fetch is relabeled successful."
     },
     {
       "id": "blender-undo",
@@ -139,24 +141,25 @@
       "immutable_ref": null,
       "authority": "Blender Foundation",
       "kind": "public_primary_source",
-      "admitted_role": "Excerpt-only comparison pending full review: Independent editing behavior; not proof of a reusable transaction implementation.",
+      "admitted_role": "Historical navigation/excerpt only, not counted toward the mandatory kernel; superseded for behavioral evidence by pinned implementation audit.",
       "admitted_claims": [
         "Official indexed manual describes undo, redo and truncation of redo history after a new edit."
       ],
       "excluded_uses": [
         "No package admission, compatibility, performance or device evidence; no code/assets copied."
       ],
-      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified.",
+      "resolution": "Original documentation retrieval remains incomplete; complete pinned implementation evidence now reviewed in blender-source-audit.md and blender-pinned-* entries. No failed documentation fetch is relabeled successful."
     },
     {
       "id": "inkml",
-      "url": "https://www.w3.org/TR/InkML/",
-      "checked_on": "2026-10-02",
+      "url": "https://www.w3.org/TR/2011/REC-InkML-20110920/",
+      "checked_on": "2026-10-03",
       "retrieval_method": "web search/open",
-      "fetch_status": "fetched_page",
+      "fetch_status": "fetched_complete_dated_recommendation",
       "lineage": "w3c-inkml",
       "license_or_terms": "W3C specification terms; architecture facts only.",
-      "immutable_ref": null,
+      "immutable_ref": "REC-InkML-20110920",
       "authority": "W3C",
       "kind": "official_standards_document",
       "admitted_role": "Normative reference for traces and metadata; no InkML compliance or mandatory codec proposed.",
@@ -166,7 +169,7 @@
       "excluded_uses": [
         "No package admission, compatibility, performance or device evidence; no code/assets copied."
       ],
-      "maintenance_evidence": "Retrieved 2026-10-02 as specified by fetch_status; immutable revision, current maintenance and applicable tests not yet verified."
+      "maintenance_evidence": "Dated 2011 Recommendation fetched in full 2026-10-03. Normative vocabulary, not proof of implementation conformance."
     },
     {
       "id": "unity-xri-input",
@@ -318,6 +321,446 @@
         "No wholesale code extraction, assets, compatibility, device or performance claim."
       ],
       "license_url": "https://raw.githubusercontent.com/mrdoob/three.js/1ea31f304854ee3c85df39fdb3eaec584bba6d9b/LICENSE"
+    },
+    {
+      "id": "w3c-web-annotation",
+      "url": "https://www.w3.org/TR/2017/REC-annotation-model-20170223/",
+      "authority": "W3C",
+      "lineage": "w3c-web-annotation",
+      "kind": "official_standards_document",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "web open of complete primary source",
+      "fetch_status": "fetched_text",
+      "immutable_ref": "REC-annotation-model-20170223",
+      "admitted_claims": [
+        "The model separates annotation, body and target; selectors and resource states qualify targets; transport is separate. SVG selectors describe resource-relative areas, not a general XR anchor contract."
+      ],
+      "admitted_role": "Normative comparison for annotation binding; no JSON-LD/transport adoption or XR conformance claim.",
+      "license_or_terms": "W3C publication terms; original factual summary only.",
+      "maintenance_evidence": "Dated source or documentation retrieved 2026-10-03; no implementation execution or present product-support claim.",
+      "excluded_uses": [
+        "No copied implementation, figures or assets; no family admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "yjs-selective-undo",
+      "url": "https://docs.yjs.dev/api/undo-manager",
+      "authority": "Yjs maintainers",
+      "lineage": "yjs",
+      "kind": "public_primary_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "web open of complete primary source",
+      "fetch_status": "fetched_text",
+      "immutable_ref": null,
+      "admitted_claims": [
+        "Undo capture can be scoped by shared type and transaction origin, with capture grouping and explicit group boundaries."
+      ],
+      "admitted_role": "Counterexample to assuming local undo defines distributed user intent; not mandatory stroke Core evidence or a selected dependency.",
+      "license_or_terms": "Documentation facts only; no source implementation or assets selected.",
+      "maintenance_evidence": "Dated source or documentation retrieved 2026-10-03; no implementation execution or present product-support claim.",
+      "excluded_uses": [
+        "No copied implementation, figures or assets; no family admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "vrsketchin-chi2020",
+      "url": "https://www.uni-ulm.de/fileadmin/website_uni_ulm/iui.inst.100/institut/Papers/Prof_Rukzio/2020/VRSketchIn_Tobias_Drey.pdf",
+      "authority": "Drey et al., Ulm University",
+      "lineage": "vrsketchin",
+      "kind": "original_research",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "web open of complete primary source",
+      "fetch_status": "fetched_text",
+      "immutable_ref": "doi:10.1145/3313831.3376628",
+      "admitted_claims": [
+        "Tracked pen and tablet combine free-space and surface-constrained drawing. Design interviews involved ten experts; prototype walkthrough involved six convenience-sampled participants."
+      ],
+      "admitted_role": "Original interaction research for input-policy alternatives, not a maintained reusable implementation or general performance/comfort proof.",
+      "license_or_terms": "Author/ACM notice on paper page 1; abstracting with credit permitted; no paper text, figures, icons, code or assets copied.",
+      "maintenance_evidence": "Dated source or documentation retrieved 2026-10-03; no implementation execution or present product-support claim.",
+      "excluded_uses": [
+        "No copied implementation, figures or assets; no family admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "slicer-markups-state",
+      "url": "https://github.com/Slicer/Slicer/blob/f1b7931d4dfc3a3a6b8db47902019382f4a0bf9e/Libs/MRML/Core/vtkMRMLMarkupsNode.h",
+      "authority": "3D Slicer maintainers",
+      "lineage": "slicer",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation and test inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "f1b7931d4dfc3a3a6b8db47902019382f4a0bf9e",
+      "admitted_claims": [
+        "Retained control points distinguish IDs, local positions, associated-node references and undefined/preview/defined/missing states. IDs are node-local; duplicate external ID rejection is not established."
+      ],
+      "admitted_role": "Independent annotation identity/lifecycle and coordinate comparison, not medical domain adoption.",
+      "license_or_terms": "3D Slicer Contribution and Software License Agreement v1.0, BSD-style with extensions; selected headers refer to COPYRIGHT.txt. Dependencies and datasets separate. Facts only.",
+      "maintenance_evidence": "Unarchived repository at 2026-10-01 head; selected Markups node changed 2026-09-25. Selected tests inspected, never run.",
+      "excluded_uses": [
+        "No copied code, datasets or assets; no atomic rollback, canonical replay, network convergence, Foundry compatibility or device claim."
+      ]
+    },
+    {
+      "id": "slicer-scene-history",
+      "url": "https://github.com/Slicer/Slicer/blob/f1b7931d4dfc3a3a6b8db47902019382f4a0bf9e/Libs/MRML/Core/vtkMRMLScene.cxx",
+      "authority": "3D Slicer maintainers",
+      "lineage": "slicer",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation and test inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "f1b7931d4dfc3a3a6b8db47902019382f4a0bf9e",
+      "admitted_claims": [
+        "Opt-in scene undo defaults off; saved state count defaults to 20. Capture clears redo, selected enabled-node state is copied, and oldest snapshots are evicted."
+      ],
+      "admitted_role": "Independent bounded local snapshot history; scene coupling is not transplanted.",
+      "license_or_terms": "3D Slicer Contribution and Software License Agreement v1.0, BSD-style with extensions; selected headers refer to COPYRIGHT.txt. Dependencies and datasets separate. Facts only.",
+      "maintenance_evidence": "Unarchived repository at 2026-10-01 head; selected Markups node changed 2026-09-25. Selected tests inspected, never run.",
+      "excluded_uses": [
+        "No copied code, datasets or assets; no atomic rollback, canonical replay, network convergence, Foundry compatibility or device claim."
+      ]
+    },
+    {
+      "id": "slicer-markups-storage",
+      "url": "https://github.com/Slicer/Slicer/blob/f1b7931d4dfc3a3a6b8db47902019382f4a0bf9e/Modules/Loadable/Markups/MRML/vtkMRMLMarkupsJsonStorageNode.cxx",
+      "authority": "3D Slicer maintainers",
+      "lineage": "slicer",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation and test inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "f1b7931d4dfc3a3a6b8db47902019382f4a0bf9e",
+      "admitted_claims": [
+        "JSON stores markup metadata and coordinate conventions separately from display state; RAS/LPS conversion is explicit. Editable point IDs and associated-node IDs are serialized."
+      ],
+      "admitted_role": "Independent codec/coordinate reference; no generic XR or atomic reader guarantee.",
+      "license_or_terms": "3D Slicer Contribution and Software License Agreement v1.0, BSD-style with extensions; selected headers refer to COPYRIGHT.txt. Dependencies and datasets separate. Facts only.",
+      "maintenance_evidence": "Unarchived repository at 2026-10-01 head; selected Markups node changed 2026-09-25. Selected tests inspected, never run.",
+      "excluded_uses": [
+        "No copied code, datasets or assets; no atomic rollback, canonical replay, network convergence, Foundry compatibility or device claim."
+      ]
+    },
+    {
+      "id": "hubs-networked-drawing",
+      "url": "https://github.com/Hubs-Foundation/hubs/blob/986d07a758e9d1184cb355385c6460391bd238d0/src/components/tools/networked-drawing.js",
+      "authority": "Hubs Foundation",
+      "lineage": "hubs-aframe",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation and test inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "986d07a758e9d1184cb355385c6460391bd238d0",
+      "admitted_claims": [
+        "Owner-gated point streaming uses current-state buffers for late join, line lifetime/count limits and last-line undo markers. Editable buffer export is distinct from GLB geometry."
+      ],
+      "admitted_role": "Optional collaboration/lifetime contrast, not durable operation history or convergence evidence.",
+      "license_or_terms": "MPL-2.0 repository; selected files have no separate grant. Third-party forks and assets unaudited, no reuse selected.",
+      "maintenance_evidence": "Unarchived repository head dated 2026-08-23; this file last changed 2022-11-26. No drawing-specific test located in inspected inventory; none run.",
+      "excluded_uses": [
+        "No copied code, datasets or assets; no atomic rollback, canonical replay, network convergence, Foundry compatibility or device claim."
+      ]
+    },
+    {
+      "id": "hubs-networked-aframe",
+      "url": "https://github.com/Hubs-Foundation/networked-aframe/blob/6093c3a0b2867a9e141cd5c19f7d13dfa7c38479/src/components/networked.js",
+      "authority": "Hubs Foundation / Networked A-Frame authors",
+      "lineage": "hubs-aframe",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation and test inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "6093c3a0b2867a9e141cd5c19f7d13dfa7c38479",
+      "admitted_claims": [
+        "Entity ownership transfer compares server time and an owner tie-break; ownership is not preservation of concurrent same-stroke edits."
+      ],
+      "admitted_role": "Dependency evidence within the Hubs example, never a second independent drawing lineage.",
+      "license_or_terms": "MIT at this dependency pin; separate from Hubs MPL-2.0. No implementation copied.",
+      "maintenance_evidence": "Exact dependency declared by the pinned Hubs package.json; no current-release or execution claim.",
+      "excluded_uses": [
+        "No copied code, datasets or assets; no atomic rollback, canonical replay, network convergence, Foundry compatibility or device claim."
+      ]
+    },
+    {
+      "id": "apainter-historical-brush",
+      "url": "https://github.com/aframevr/a-painter/blob/0deba1f3314ee4cd053bf2a2ae2854994014dd65/src/systems/brush.js",
+      "authority": "A-Frame authors",
+      "lineage": "aframe-historical",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation and test inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "0deba1f3314ee4cd053bf2a2ae2854994014dd65",
+      "admitted_claims": [
+        "Brush points carry pose, pressure and time. JSON/binary serialization and owner-filtered undo exist, but inspected JSON omits stable stroke ID and owner; unknown brushes may fall back."
+      ],
+      "admitted_role": "Historical counterexample only; no extra independent maintained-implementation credit.",
+      "license_or_terms": "MIT repository; vendor/brush/image/sound assets not separately audited, no reuse.",
+      "maintenance_evidence": "Master dated 2022-10-26; brush file last touched 2022-03-31. Build/lint scripts observed, no test script; not run.",
+      "excluded_uses": [
+        "No copied code, datasets or assets; no atomic rollback, canonical replay, network convergence, Foundry compatibility or device claim."
+      ]
+    },
+    {
+      "id": "replicated-register-undo-research",
+      "url": "https://arxiv.org/html/2404.11308v1",
+      "authority": "Stewen and Kleppmann (PaPoC 2024)",
+      "lineage": "replicated-register-undo-research",
+      "kind": "original_research",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "Full original-author paper at explicit arXiv version",
+      "fetch_status": "fetched_text_at_version",
+      "immutable_ref": "2404.11308v1",
+      "admitted_claims": [
+        "Local, global and blocking undo differ; register-local undo can affect another actor's intervening write. Proposed causal register algorithm is not a stroke document protocol."
+      ],
+      "admitted_role": "Deferred collaborative-undo design evidence only; not a selected implementation or mandatory Core basis.",
+      "license_or_terms": "CC BY 4.0 paper; no algorithm implementation or figures copied.",
+      "maintenance_evidence": "Fixed 2024 paper version inspected 2026-10-03; no maintenance, Foundry runtime or current device claim.",
+      "excluded_uses": [
+        "No direct generalization to spatial drawing, code adoption, convergence or device validation."
+      ]
+    },
+    {
+      "id": "vr-undo-user-study",
+      "url": "https://arxiv.org/html/2403.11756v1",
+      "authority": "Rasch, Perzl, Weiss and M\u00fcller (CHI 2024)",
+      "lineage": "vr-undo-user-study",
+      "kind": "original_research",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "Full original-author paper at explicit arXiv version",
+      "fetch_status": "fetched_text_at_version",
+      "immutable_ref": "2403.11756v1",
+      "admitted_claims": [
+        "32 participants in paired tower-building tasks compare individual, selective and world undo, with task and group-size limitations."
+      ],
+      "admitted_role": "Deferred collaborative-undo design evidence only; not a selected implementation or mandatory Core basis.",
+      "license_or_terms": "arXiv non-exclusive distribution license; no paper text, assets or figures copied.",
+      "maintenance_evidence": "Fixed 2024 paper version inspected 2026-10-03; no maintenance, Foundry runtime or current device claim.",
+      "excluded_uses": [
+        "No direct generalization to spatial drawing, code adoption, convergence or device validation."
+      ]
+    },
+    {
+      "id": "blender-pinned-document",
+      "url": "https://github.com/blender/blender/blob/2b18cad88b138a1b16617c27540858fba59e66f5/source/blender/makesdna/DNA_grease_pencil_types.h",
+      "authority": "Blender Authors",
+      "lineage": "blender",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "2b18cad88b138a1b16617c27540858fba59e66f5",
+      "admitted_claims": [
+        "Drawings/layer frames reference curve geometry; point and curve attributes are stored separately. Array indices and shared mutable drawings do not establish durable external IDs."
+      ],
+      "admitted_role": "Independent retained-document/edit implementation comparison; detailed notices, tests and limitations in blender-source-audit.md.",
+      "license_or_terms": "Selected runtime files GPL-2.0-or-later; some tests Apache-2.0, root Blender licensing and external assets separate. Original factual comparison only; no code reuse selected.",
+      "maintenance_evidence": "Historical v4.3.0 revision from 2024-11-19. Recent mirror and undo-path maintenance were observed separately; this does not claim current-release semantics. See blender-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "blender-pinned-undo",
+      "url": "https://github.com/blender/blender/blob/2b18cad88b138a1b16617c27540858fba59e66f5/source/blender/editors/grease_pencil/intern/grease_pencil_undo.cc",
+      "authority": "Blender Authors",
+      "lineage": "blender",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "2b18cad88b138a1b16617c27540858fba59e66f5",
+      "admitted_claims": [
+        "Grease Pencil undo stores geometry, drawing references and layer state in snapshots with editor context. Its encoder does not assign UndoStep.data_size."
+      ],
+      "admitted_role": "Independent retained-document/edit implementation comparison; detailed notices, tests and limitations in blender-source-audit.md.",
+      "license_or_terms": "Selected runtime files GPL-2.0-or-later; some tests Apache-2.0, root Blender licensing and external assets separate. Original factual comparison only; no code reuse selected.",
+      "maintenance_evidence": "Historical v4.3.0 revision from 2024-11-19. Recent mirror and undo-path maintenance were observed separately; this does not claim current-release semantics. See blender-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "blender-pinned-history",
+      "url": "https://github.com/blender/blender/blob/2b18cad88b138a1b16617c27540858fba59e66f5/source/blender/blenkernel/intern/undo_system.cc",
+      "authority": "Blender Authors",
+      "lineage": "blender",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "2b18cad88b138a1b16617c27540858fba59e66f5",
+      "admitted_claims": [
+        "Undo-step pushes clear redo before encoding. General step/memory limits exist, but GP accounting and minimum-retention exceptions prevent inferring a hard byte ceiling."
+      ],
+      "admitted_role": "Independent retained-document/edit implementation comparison; detailed notices, tests and limitations in blender-source-audit.md.",
+      "license_or_terms": "Selected runtime files GPL-2.0-or-later; some tests Apache-2.0, root Blender licensing and external assets separate. Original factual comparison only; no code reuse selected.",
+      "maintenance_evidence": "Historical v4.3.0 revision from 2024-11-19. Recent mirror and undo-path maintenance were observed separately; this does not claim current-release semantics. See blender-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "blender-pinned-migration",
+      "url": "https://github.com/blender/blender/blob/2b18cad88b138a1b16617c27540858fba59e66f5/source/blender/blenkernel/intern/grease_pencil_convert_legacy.cc",
+      "authority": "Blender Authors",
+      "lineage": "blender",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "2b18cad88b138a1b16617c27540858fba59e66f5",
+      "admitted_claims": [
+        "Legacy conversion changes point/curve attributes, thickness/radius and time representation; empty strokes can be skipped. Migration is not demonstrated lossless interchange."
+      ],
+      "admitted_role": "Independent retained-document/edit implementation comparison; detailed notices, tests and limitations in blender-source-audit.md.",
+      "license_or_terms": "Selected runtime files GPL-2.0-or-later; some tests Apache-2.0, root Blender licensing and external assets separate. Original factual comparison only; no code reuse selected.",
+      "maintenance_evidence": "Historical v4.3.0 revision from 2024-11-19. Recent mirror and undo-path maintenance were observed separately; this does not claim current-release semantics. See blender-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "open-brush-sketch-writer",
+      "url": "https://github.com/icosa-foundation/open-brush/blob/140b2e73dd91280ee36ea69db7e1d124b4123370/Assets/Scripts/Save/SketchWriter.cs",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "lineage": "tilt-brush",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "admitted_claims": [
+        "Writer serializes stroke seeds; decoder uses hash-derived legacy backfill. Stroke GUID is absent from the inspected record. Replacement loading clears memory before parsing."
+      ],
+      "admitted_role": "Corrects stale seed comment; versioned persistence and negative atomic-import evidence.",
+      "license_or_terms": "Apache-2.0 selected file headers; dependencies, assets and trademarks require their own review if later selected. No implementation/assets selected for copying.",
+      "maintenance_evidence": "Pinned commit 2026-10-02, stable 2.32.0 and September prereleases inspected. Exact Builds run had successful platform jobs but failed publishing/notarization; no test execution established. See openbrush-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "open-brush-file-container",
+      "url": "https://github.com/icosa-foundation/open-brush/blob/140b2e73dd91280ee36ea69db7e1d124b4123370/Assets/Scripts/Save/TiltFile.cs",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "lineage": "tilt-brush",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "admitted_claims": [
+        "Versioned ZIP container writes through a temporary file and previous-file rename; failure-injected crash consistency was not demonstrated."
+      ],
+      "admitted_role": "Staged-save comparison, not crash-safe storage certification.",
+      "license_or_terms": "Apache-2.0 selected file headers; dependencies, assets and trademarks require their own review if later selected. No implementation/assets selected for copying.",
+      "maintenance_evidence": "Pinned commit 2026-10-02, stable 2.32.0 and September prereleases inspected. Exact Builds run had successful platform jobs but failed publishing/notarization; no test execution established. See openbrush-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "open-brush-metadata-migration",
+      "url": "https://github.com/icosa-foundation/open-brush/blob/140b2e73dd91280ee36ea69db7e1d124b4123370/Assets/Scripts/Save/MetadataUtils.cs",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "lineage": "tilt-brush",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "admitted_claims": [
+        "Versioned metadata migrations exist; the reviewed method upgrades old schemas but does not reject future schema numbers."
+      ],
+      "admitted_role": "Migration evidence with explicit strictness/fidelity limits.",
+      "license_or_terms": "Apache-2.0 selected file headers; dependencies, assets and trademarks require their own review if later selected. No implementation/assets selected for copying.",
+      "maintenance_evidence": "Pinned commit 2026-10-02, stable 2.32.0 and September prereleases inspected. Exact Builds run had successful platform jobs but failed publishing/notarization; no test execution established. See openbrush-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "open-brush-history",
+      "url": "https://github.com/icosa-foundation/open-brush/blob/140b2e73dd91280ee36ea69db7e1d124b4123370/Assets/Scripts/SketchMemoryScript.cs",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "lineage": "tilt-brush",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "admitted_claims": [
+        "New command recording clears redo and may merge commands; local and network recording paths differ. No history cap established in selected methods."
+      ],
+      "admitted_role": "Application history comparison, not one attributed intent-path proof.",
+      "license_or_terms": "Apache-2.0 selected file headers; dependencies, assets and trademarks require their own review if later selected. No implementation/assets selected for copying.",
+      "maintenance_evidence": "Pinned commit 2026-10-02, stable 2.32.0 and September prereleases inspected. Exact Builds run had successful platform jobs but failed publishing/notarization; no test execution established. See openbrush-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "open-brush-version-context",
+      "url": "https://github.com/icosa-foundation/open-brush/blob/140b2e73dd91280ee36ea69db7e1d124b4123370/ProjectSettings/ProjectVersion.txt",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "lineage": "tilt-brush",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "admitted_claims": [
+        "Pinned project uses Unity 6000.6.0f1 while pinned README still says 2022.3.34f1. Package and lock manifests describe an application dependency graph."
+      ],
+      "admitted_role": "Compatibility context only; never Foundry6000.3.19f1 evidence.",
+      "license_or_terms": "Version metadata has no per-file license header observed; repository root Apache-2.0 context does not certify dependencies or assets. Original factual summary only.",
+      "maintenance_evidence": "Pinned commit 2026-10-02, stable 2.32.0 and September prereleases inspected. Exact Builds run had successful platform jobs but failed publishing/notarization; no test execution established. See openbrush-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "open-brush-test-memory",
+      "url": "https://github.com/icosa-foundation/open-brush/blob/140b2e73dd91280ee36ea69db7e1d124b4123370/Assets/Editor/Tests/TestMemory.cs",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "lineage": "tilt-brush",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "admitted_claims": [
+        "Selected tests check adjusted snapshot grouping, not complete persistence or canonical replay. Audit inventories 40 Editor C# files including helpers and separate PlayMode tests."
+      ],
+      "admitted_role": "Test source inventory, not execution evidence.",
+      "license_or_terms": "Apache-2.0 selected file headers; dependencies, assets and trademarks require their own review if later selected. No implementation/assets selected for copying.",
+      "maintenance_evidence": "Pinned commit 2026-10-02, stable 2.32.0 and September prereleases inspected. Exact Builds run had successful platform jobs but failed publishing/notarization; no test execution established. See openbrush-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
+    },
+    {
+      "id": "open-brush-third-party-notices",
+      "url": "https://github.com/icosa-foundation/open-brush/blob/140b2e73dd91280ee36ea69db7e1d124b4123370/Support/ThirdParty/GeneratedThirdPartyNotices.txt",
+      "authority": "Icosa Foundation / Tilt Brush authors",
+      "lineage": "tilt-brush",
+      "kind": "official_implementation_source",
+      "checked_on": "2026-10-03",
+      "retrieval_method": "GitHub connector fetch at immutable ref; selected implementation inspection",
+      "fetch_status": "fetched_text_at_immutable_ref",
+      "immutable_ref": "140b2e73dd91280ee36ea69db7e1d124b4123370",
+      "admitted_claims": [
+        "Separate generated notices cover selected third-party components; generator scope is not a complete asset/dependency audit."
+      ],
+      "admitted_role": "Explicit rights boundary for architectural observation only.",
+      "license_or_terms": "Compilation of component-specific third-party copyright and license notices, not an Apache-2.0 grant for the compilation or every dependency. No notices or implementation copied.",
+      "maintenance_evidence": "Pinned commit 2026-10-02, stable 2.32.0 and September prereleases inspected. Exact Builds run had successful platform jobs but failed publishing/notarization; no test execution established. See openbrush-source-audit.md.",
+      "excluded_uses": [
+        "No copied implementation, fixtures or assets; no package admission, runtime, compatibility or device claim."
+      ]
     }
   ],
   "schema": "xr-foundry.spatial_drawing_source_manifest.v1",
