@@ -348,6 +348,22 @@ class WorkItemRoutingTests(unittest.TestCase):
         self.assertEqual(narrowed["items"], [])
         self.assertEqual(narrowed["capability"]["items_not_actionable_by_status"], 1)
 
+    def test_every_schema_status_has_consistent_discovery_and_dispatch(self):
+        schema = json.loads((ROOT / "docs/contributing/work-items.schema.json").read_text())
+        for status in schema["$defs"]["item"]["properties"]["status"]["enum"]:
+            with self.subTest(status=status):
+                item = self.item()
+                item["status"] = status
+                board = self.board([item])
+                self.assertEqual(board["warnings"], [])
+                self.assertEqual(len(board["items"]), 0 if status == "done" else 1)
+                if board["items"]:
+                    self.assertEqual(board["items"][0]["source_status"], status)
+                narrowed = MODULE.filter_board_by_capability(board, {"satisfies_blockers": ["nothing"]})
+                self.assertEqual(len(narrowed["items"]), 1 if status == "open" else 0)
+                self.assertEqual(narrowed["capability"]["items_not_actionable_by_status"],
+                                 1 if status not in ("open", "done") else 0)
+
     def test_deferred_lesson_is_visible_without_becoming_a_task(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

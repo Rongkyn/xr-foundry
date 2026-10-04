@@ -312,7 +312,7 @@ class Collector:
                 self.warn_shape(path, "item without an id")
                 continue
             status = item.get("status")
-            if status not in ("open", "in_progress", "done"):
+            if status not in ("open", "in_progress", "done", "blocked"):
                 self.warn_shape(path, f"{item['id']} declares an unknown status {status!r}")
                 continue
             if status == "done":
