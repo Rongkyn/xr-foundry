@@ -5,6 +5,10 @@ live in each package's `CHANGELOG.md`.
 
 ## Unreleased
 
+- Preserve work-item and lesson source statuses on the open-work board; capability
+  views exclude in-progress work and deferred lessons, with separate wait counts.
+  Full discovery and canonical task/permission records remain unchanged.
+
 - Added opt-in complete item briefs (`open_work.py --item WI-nnn`) for human
   and Agent contributors, with canonical validation, explicit capability and
   prerequisite readiness, source digests, all acceptance instructions, and no

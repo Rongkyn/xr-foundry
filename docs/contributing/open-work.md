@@ -32,9 +32,24 @@ unknown dependency stays pending and produces a warning. The full board keeps
 these items visible, with their wait in `next_action`; the `--capability` view
 excludes them until their prerequisites finish. Its header counts items needing
 a different capability separately from otherwise reachable items waiting on
-dependencies, without counting the same item twice. Invalid decision classes or
+dependencies, without counting the same item twice. Invalid statuses, decision classes, or
 dependency lists are warned and skipped. This projects the existing
 [work-item protocol](work-items.md), without granting or changing authority.
+
+The board also preserves `source_status` for curated work items and lesson
+dispositions. Only `open` work items and non-deferred lesson gaps enter a
+capability work lane; `in_progress` items and `deferred` lessons remain visible
+on the full board. A deferred lesson names a future trigger, not an instruction
+to create that trigger. See the [lesson status definitions](../standards/lessons/README.md).
+The header separately counts `items_not_actionable_by_status` after capability
+and dependency filtering, so each hidden item has one count. This is a discovery
+filter, not an ownership/lease decision, and it never changes source status.
+
+If the narrowed board only offers the post-merge cold-start receipt, it has no
+ready curated implementation task for that declaration. Do not start an unrelated
+feature merely to manufacture a receipt. Inspect existing public Issues for a
+bounded routine contribution or report the missing starter task; retain the
+Task Hall's claim/review boundaries for coordinated work.
 
 For inferred entries, `blocked_on` is read from the item's own text: `unity_editor` when it needs an
 Editor run, compilation, a player build, or a consumer exercise; `headset` when

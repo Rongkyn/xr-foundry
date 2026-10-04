@@ -216,6 +216,7 @@ class CapabilityBoardTests(unittest.TestCase):
                 {
                     "id": "a",
                     "kind": "work_item",
+                    "source_status": "open",
                     "family": "repository",
                     "title": "A",
                     "source_path": "docs/contributing/work-items.json",

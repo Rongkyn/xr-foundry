@@ -111,6 +111,7 @@ class WorkItem:
     review_not_before: str | None = None
     window_closed: bool | None = None
     pending_dependencies: list[str] = field(default_factory=list)
+    source_status: str | None = None
 
 
 class UnreadableSource(Exception):
@@ -254,6 +255,7 @@ class Collector:
                 self.add(
                     id=f"{self.rel(path)}#{lesson_id}/{family}",
                     kind="lesson_gap",
+                    source_status=status,
                     family=family,
                     title=f"{lesson_id} ({status}): {lesson.get('title', '')}".strip(),
                     source_path=self.rel(path),
@@ -309,7 +311,11 @@ class Collector:
             if not isinstance(item, dict) or not item.get("id"):
                 self.warn_shape(path, "item without an id")
                 continue
-            if item.get("status") == "done":
+            status = item.get("status")
+            if status not in ("open", "in_progress", "done"):
+                self.warn_shape(path, f"{item['id']} declares an unknown status {status!r}")
+                continue
+            if status == "done":
                 continue
             needs = str(item.get("needs", "none"))
             blocked_on = NEEDS_TO_BLOCKER.get(needs)
@@ -341,6 +347,7 @@ class Collector:
             self.add(
                 id=f"{self.rel(path)}#{item['id']}",
                 kind="work_item",
+                source_status=status,
                 lane=decision_class,
                 pending_dependencies=unfinished,
                 family=REPOSITORY_FAMILY,
@@ -575,12 +582,14 @@ def render_markdown(board: dict[str, Any]) -> str:
         lines.append(
             "Narrowed to capability `{id}` ({title}), which reaches work blocked on {blockers}. "
             "{hidden} item(s) need a different declaration; "
-            "{waiting} item(s) wait on dependencies.".format(
+            "{waiting} item(s) wait on dependencies; "
+            "{status_waiting} item(s) are not actionable in their source status.".format(
                 id=capability.get("id"),
                 title=capability.get("title"),
                 blockers=", ".join(capability.get("satisfies_blockers", [])),
                 hidden=capability.get("items_needing_capability", capability.get("items_hidden", 0)),
                 waiting=capability.get("items_waiting_on_dependencies", 0),
+                status_waiting=capability.get("items_not_actionable_by_status", 0),
             )
         )
     lines.append("")
@@ -598,12 +607,13 @@ def render_markdown(board: dict[str, Any]) -> str:
                 continue
             lines.append(f"### Blocked on: {blocker} ({len(group)})")
             lines.append("")
-            lines.append("| Kind | Family | Title | Next action | Source |")
-            lines.append("| --- | --- | --- | --- | --- |")
+            lines.append("| Kind | Source status | Family | Title | Next action | Source |")
+            lines.append("| --- | --- | --- | --- | --- | --- |")
             for item in group:
                 lines.append(
-                    "| {kind} | {family} | {title} | {action} | `{source}` |".format(
+                    "| {kind} | {source_status} | {family} | {title} | {action} | `{source}` |".format(
                         kind=item["kind"],
+                        source_status=cell(item.get("source_status") or "not specified"),
                         family=item["family"],
                         title=cell(item["title"]),
                         action=cell(item["next_action"]),
@@ -661,7 +671,10 @@ def filter_board_by_capability(board: dict[str, Any], profile: dict[str, Any]) -
 
     reachable = set(profile.get("satisfies_blockers", []))
     eligible = [item for item in board["items"] if item["blocked_on"] in reachable]
-    items = [item for item in eligible if not item.get("pending_dependencies")]
+    dependency_ready = [item for item in eligible if not item.get("pending_dependencies")]
+    items = [item for item in dependency_ready
+             if not (item["kind"] == "work_item" and item.get("source_status") != "open")
+             and not (item["kind"] == "lesson_gap" and item.get("source_status") == "deferred")]
     narrowed = dict(board)
     narrowed["capability"] = {
         "id": profile.get("id"),
@@ -669,7 +682,8 @@ def filter_board_by_capability(board: dict[str, Any], profile: dict[str, Any]) -
         "satisfies_blockers": sorted(reachable),
         "items_hidden": len(board["items"]) - len(items),
         "items_needing_capability": len(board["items"]) - len(eligible),
-        "items_waiting_on_dependencies": len(eligible) - len(items),
+        "items_waiting_on_dependencies": len(eligible) - len(dependency_ready),
+        "items_not_actionable_by_status": len(dependency_ready) - len(items),
     }
     narrowed["items"] = items
     narrowed["summary"] = {

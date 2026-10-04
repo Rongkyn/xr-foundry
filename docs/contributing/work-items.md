@@ -39,8 +39,10 @@ unknown batch, a circular dependency, or a private script.
    environment. Every command is a script in `scripts/` or `python -m unittest`;
    nothing depends on the tool that produced the change.
 5. **Push and open the five-line pull request** as [`start-here.md`](start-here.md)
-   describes. The verdict, not a person, says whether a routine item merges. A
-   non-routine item waits for the maintainer, who reads the same verdict.
+   describes. The verdict reports the technical and review gates. A routine
+   branch covered by an active operating mandate follows that mandate's merge
+   route; other contributions wait for maintainer review as `start-here.md`
+   describes. A passing technical check is not a human approval or merge right.
 6. **Mark the item.** In the same pull request, set `status` to `done` and
    `done_proof` to the path that proves it (the artifact, the receipt, the record).
    Validation refuses `done` without an existing proof path. If you stop early,

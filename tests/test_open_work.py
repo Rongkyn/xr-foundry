@@ -243,7 +243,7 @@ class OpenWorkBoardTests(unittest.TestCase):
         self.assertLess(text.index("## Routine lane"), text.index("## Non-routine lane"))
         self.assertIn("### Blocked on: nothing (2)", text)
         self.assertIn("### Blocked on: review_window (1)", text)
-        self.assertIn("| test_gap | demo |", text)
+        self.assertIn("| test_gap | not specified | demo |", text)
         self.assertIn("## Summary", text)
 
     def test_malformed_json_lands_in_warnings(self) -> None:
@@ -339,6 +339,46 @@ class WorkItemRoutingTests(unittest.TestCase):
         self.assertEqual(narrowed["capability"]["items_waiting_on_dependencies"], 0)
         self.assertEqual(json.dumps(board, sort_keys=True), original)
 
+    def test_in_progress_is_visible_but_not_offered_for_new_work(self):
+        item = self.item()
+        item["status"] = "in_progress"
+        board = self.board([item])
+        self.assertEqual(len(board["items"]), 1)
+        narrowed = MODULE.filter_board_by_capability(board, {"satisfies_blockers": ["nothing"]})
+        self.assertEqual(narrowed["items"], [])
+        self.assertEqual(narrowed["capability"]["items_not_actionable_by_status"], 1)
+
+    def test_deferred_lesson_is_visible_without_becoming_a_task(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            write_json(root, "docs/standards/lessons/lessons-register.json", {"lessons": [{
+                "id": "LESSON-001", "title": "Future adapter", "dispositions": [
+                    {"family": "example", "status": "deferred", "follow_up": "When an adapter exists, add its seam."},
+                    {"family": "current", "status": "gap", "follow_up": "Document the existing seam."}]}]})
+            board = MODULE.build_board(root, now=NOW)
+            narrowed = MODULE.filter_board_by_capability(board, {"satisfies_blockers": ["nothing"]})
+            self.assertEqual(len(board["items"]), 2)
+            self.assertEqual([i["family"] for i in narrowed["items"]], ["current"])
+            self.assertEqual(narrowed["capability"]["items_not_actionable_by_status"], 1)
+
+    def test_status_and_dependency_waits_are_counted_without_overlap(self):
+        active = self.item("WI-001")
+        active["status"] = "in_progress"
+        waiting = self.item("WI-002")
+        waiting.update(status="in_progress", depends_on=["WI-001"])
+        unavailable = self.item("WI-003")
+        unavailable.update(status="in_progress", needs="headset")
+        board = self.board([active, waiting, unavailable, self.item("WI-004")])
+        original = json.dumps(board, sort_keys=True)
+        narrowed = MODULE.filter_board_by_capability(board, {"satisfies_blockers": ["nothing"]})
+        self.assertEqual([i["id"].split("#")[-1] for i in narrowed["items"]], ["WI-004"])
+        counters = narrowed["capability"]
+        self.assertEqual(counters["items_hidden"], 3)
+        self.assertEqual(counters["items_needing_capability"], 1)
+        self.assertEqual(counters["items_waiting_on_dependencies"], 1)
+        self.assertEqual(counters["items_not_actionable_by_status"], 1)
+        self.assertEqual(json.dumps(board, sort_keys=True), original)
+
     def test_missing_dependency_is_not_treated_as_done(self):
         item = self.item()
         item["depends_on"] = ["WI-999"]
@@ -347,7 +387,8 @@ class WorkItemRoutingTests(unittest.TestCase):
         self.assertTrue(any("unknown dependency WI-999" in w for w in board["warnings"]))
 
     def test_malformed_dispatch_fields_are_warned_and_skipped(self):
-        for field, value in (("decision_class", "unknown"), ("decision_class", None),
+        for field, value in (("status", None), ("status", []), ("status", "unknown"),
+                             ("decision_class", "unknown"), ("decision_class", None),
                              ("depends_on", None), ("depends_on", "WI-001"),
                              ("depends_on", [None])):
             with self.subTest(field=field, value=value):
