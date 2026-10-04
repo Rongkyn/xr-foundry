@@ -41,6 +41,27 @@ take the [target-specific raw-material route](#using-an-unmatched-tuple).
 
 ## 2. Install both packages at the same commit
 
+To prepare a disposable project without copying the manifest and C# by hand,
+run this from the XR Foundry checkout:
+
+```bash
+python scripts/materialize_persistence_quickstart.py --output ../persistence-quickstart-consumer
+```
+
+The output must be a new directory outside the repository. The command copies
+this guide's exact manifest and complete caller into `Packages/manifest.json`
+and `Assets/PersistenceQuickstart.cs`, records the Editor version and file
+hashes, and includes this guide. It refuses existing output, mismatched package
+pins, or ambiguous source snippets. A filesystem error can leave partial output;
+inspect it and choose a new directory before retrying. It does not download packages, generate a
+lock, open Unity, or create a scene/config asset. The receipt remains
+`prepared_only` with resolution, compilation, and smoke execution `not_run`.
+Open the generated project in the recorded Editor, complete Package Manager
+resolution below, then continue at step 3. Relative evidence links in the copied
+guide refer to the original XR Foundry checkout.
+
+For an existing disposable Unity project, use the manual instructions below.
+
 Use a disposable Unity project for the walkthrough, with Git available to Unity
 Package Manager. Merge these entries into the `dependencies` object of your
 project's `Packages/manifest.json`; preserve the project's other entries:

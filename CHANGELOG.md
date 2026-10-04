@@ -5,6 +5,11 @@ live in each package's `CHANGELOG.md`.
 
 ## Unreleased
 
+- Added an overwrite-safe Persistence quickstart materializer that derives a
+  disposable Git-based consumer from the canonical guide and records source
+  hashes. Preparation and source closure remain separate from Unity resolution
+  and runtime evidence.
+
 - Added a release-pinned, two-package Persistence quickstart with complete
   consumer save/load code, working first-save configuration, restart/recovery
   checks and explicit historical evidence boundaries. Fixed the sample's missing
