@@ -1,0 +1,94 @@
+diff --git a/docs/contributing/work-items.json b/docs/contributing/work-items.json
+index 9e998b1..0656d37 100644
+--- a/docs/contributing/work-items.json
++++ b/docs/contributing/work-items.json
+@@ -1169,7 +1169,7 @@
+       "needs": "none",
+       "decision_class": "routine",
+       "size": "small",
+-      "status": "open",
++      "status": "done",
+       "depends_on": [],
+       "read_first": [
+         "AGENTS.md",
+@@ -1206,7 +1206,7 @@
+         ]
+       },
+       "evidence": "A reviewed README diff resolves the planned-versus-implemented entry ambiguity, names the correct incubating package IDs, links existing install/release sources and immutable receipt revisions/tuples, and preserves historical-versus-current and device/accessibility boundaries. Repository checks and technical merge-readiness checks pass; missing human review stays pending and is never recorded as a test failure or approval.",
+-      "done_proof": null
++      "done_proof": "docs/standards/settings/README.md"
+     }
+   ]
+ }
+diff --git a/docs/standards/settings/README.md b/docs/standards/settings/README.md
+index 9925d16..043b5ac 100644
+--- a/docs/standards/settings/README.md
++++ b/docs/standards/settings/README.md
+@@ -7,7 +7,22 @@ accessibility certification system.
+ 
+ ## Package boundary
+ 
+-| Planned layer | Owns | Does not own |
++The admitted family ships two implemented **incubating** packages, both version
++`0.1.0`, in the 2026-07-16
++[`unity-next-systems-v0.1.0` release](../../releases/unity-next-systems-v0.1.0.md):
++
++- [`com.lingkyn.settings.core`](../../../packages/unity/systems/settings/com.lingkyn.settings.core/README.md):
++  engine-light settings semantics; [usage guide](../../../packages/unity/systems/settings/com.lingkyn.settings.core/Documentation~/index.md).
++- [`com.lingkyn.settings.unity`](../../../packages/unity/systems/settings/com.lingkyn.settings.unity/README.md):
++  Unity authoring/application adapter; [usage guide](../../../packages/unity/systems/settings/com.lingkyn.settings.unity/Documentation~/index.md).
++
++Use the release's version-pinned Git install selectors. The Unity adapter depends on
++Core `0.1.0`; add the matching Core selector explicitly if Unity cannot resolve
++that same-repository dependency, keeping both selectors on the release tag.
++See the [reference catalog](../../../reference-catalog.json) for the admitted
++artifacts and their non-claims. The release is not a maturity promotion.
++
++| Implemented layer | Owns | Does not own |
+ | --- | --- | --- |
+ | Engine-light Core | Typed keys and values, definitions, defaults, scopes, constraints, profiles, staged transactions, deterministic change sets, rollback orchestration, snapshots, persistence seam, accessibility discoverability metadata | File I/O, Unity objects, UI rendering, input bindings, localized strings, platform settings |
+ | Unity adapter | ScriptableObject definition/profile authoring, deterministic Core conversion, catalog validation, and replaceable Unity applicator registration | UGUI, UI Toolkit, concrete game graphics/audio/input policy, mutable player state in assets |
+@@ -23,8 +38,10 @@ Whether an admitted category set belongs in Core as a validated identity or in a
+ profile document is an open decision recorded as `LESSON-001` in the
+ [consumer lessons register](../lessons/README.md).
+ 
+-No package identifier is reserved until the source gate receives an independent
+-PASS and an admitted blueprint is committed. Read the [architecture contract](architecture-contract.md),
++These existing package IDs are admitted; they are not planned or unreserved.
++Future families still require an independent source-gate PASS and a committed,
++admitted blueprint before reserving package identifiers. Read the
++[architecture contract](architecture-contract.md),
+ [verification contract](verification-contract.md), and
+ [positive-source manifest](source-manifest.json) before implementation or reuse.
+ 
+@@ -38,3 +55,30 @@ See also:
+ adapter gates in the verification contract to named tests and lists the tests still
+ missing. An unmapped or partial clause is an open gap, not implied coverage, and the
+ map is not execution evidence.
++
++## Historical evidence boundary
++
++The [Core compatibility receipt](../../validation/evidence/unity-6000.3-settings-core-windows-editor/compatibility-receipt.json)
++and [Unity adapter compatibility receipt](../../validation/evidence/unity-6000.3-settings-unity-windows-editor/compatibility-receipt.json)
++each record revision `7753de2bb10eb6376bc0f1df48bfd74ee3bf1ed9`:
++Core `0.1.0` alone for the Core receipt, and Core plus Unity adapter `0.1.0`
++for the adapter receipt. Their linked compile and EditMode results passed on
++2026-07-16. The release tag is a separate installation boundary, not the recorded
++test revision.
++
++Both receipts bind the same exact host tuple: Unity / Unity Editor `6000.3.19f1`,
++`WindowsEditor`, graphics API `Null`, scripting backend `Mono`, architecture
++`x86_64`, and `windows-editor-host` version `10.0.26200`. Renderer, XR provider,
++runtime, and input routes are `not_applicable`. Requested Test Framework is
++`1.6.0`; resolved dependencies are `com.unity.test-framework` `1.6.0`,
++`com.unity.ext.nunit` `2.0.5`, `com.unity.modules.imgui` `1.0.0`, and
++`com.unity.modules.jsonserialize` `1.0.0`. Each receipt links its own manifest,
++lockfile and digests; [compatibility profiles](../../../compatibility-profiles.json)
++remain the authoritative tuple registry.
++
++These are historical compile/EditMode passes for those recorded consumers, not
++execution evidence for later source or sample changes, which remain unexecuted
++unless separately evidenced. This documentation correction does not rerun Unity
++or prove current-head support. Renderer, accessibility-outcome, and named-device
++behavior remain unverified; no other Editor, host, backend, input, provider, or
++device tuple inherits these results.
