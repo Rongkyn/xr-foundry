@@ -1161,6 +1161,52 @@
       },
       "evidence": "The four artifacts in the tree and a passing repository contract.",
       "done_proof": "docs/standards/quality-tiers/verification-contract.md"
+    },
+    {
+      "id": "WI-035",
+      "title": "Make the Settings family entry reflect released package status",
+      "milestone_batch": "1f",
+      "needs": "none",
+      "decision_class": "routine",
+      "size": "small",
+      "status": "open",
+      "depends_on": [],
+      "read_first": [
+        "AGENTS.md",
+        "docs/contributing/start-here.md",
+        "docs/contributing/work-items.md",
+        "docs/standards/settings/README.md",
+        "docs/releases/unity-next-systems-v0.1.0.md",
+        "packages/unity/systems/settings/com.lingkyn.settings.core/package.json",
+        "packages/unity/systems/settings/com.lingkyn.settings.unity/package.json",
+        "reference-catalog.json",
+        "compatibility-profiles.json",
+        "docs/validation/evidence/unity-6000.3-settings-core-windows-editor/compatibility-receipt.json",
+        "docs/validation/evidence/unity-6000.3-settings-unity-windows-editor/compatibility-receipt.json"
+      ],
+      "allowed_paths": [
+        "docs/standards/settings/README.md",
+        "docs/contributing/work-items.json"
+      ],
+      "steps": [
+        "Reproduce the consumer entry gap: the Settings standard README still labels its layers planned and gives only generic future package-ID admission wording, while the two package manifests, reference catalog and release matrix already contain shipped Core/Unity packages. Record those source paths before editing. Related consumer work is GitHub issue #71 and newcomer discovery is #65/#66; this is documentation for an existing family.",
+        "Update only docs/standards/settings/README.md to name the implemented incubating Core and Unity package IDs and link their existing package entry points and release instructions. Replace stale planned/unreserved wording for this admitted family while preserving its real non-goals and generic source-gate requirements for future families.",
+        "Add a concise evidence boundary linked to the two existing compatibility receipts: state each recorded revision and exact Editor/host tuple, distinguish the historical passing scope from unexecuted later source/sample changes, and state that renderer/accessibility-outcome and named-device claims remain unverified. Do not claim this documentation edit reran Unity or proved current-head support.",
+        "Leave runtime code, sample code, versions, maturity, release tags, profiles, evidence receipts, governance and Issue/Project state untouched. Open PR116 owns the SettingsAuthoring sample improvement; it is not part of this task. In work-items.json change only WI-035 status and done_proof during closeout; do not edit other items.",
+        "Run repository validation and tests, commit the bounded change, then run merge-readiness against fetched origin/main. Open an ordinary fork PR linking #71 and the supporting sources; a technical pass is not human approval. Mark WI-035 done with docs/standards/settings/README.md as proof only after the corrected artifact and checks exist. Do not mark WI-010 done until an actual outside contribution has merged."
+      ],
+      "acceptance": {
+        "commands": [
+          "python scripts/validate_repository.py --json",
+          "python -m unittest discover -s tests -p \"test_*.py\"",
+          "python scripts/merge_readiness.py --base origin/main --head HEAD --markdown"
+        ],
+        "artifacts": [
+          "docs/standards/settings/README.md"
+        ]
+      },
+      "evidence": "A reviewed README diff resolves the planned-versus-implemented entry ambiguity, names the correct incubating package IDs, links existing install/release sources and immutable receipt revisions/tuples, and preserves historical-versus-current and device/accessibility boundaries. Repository checks and technical merge-readiness checks pass; missing human review stays pending and is never recorded as a test failure or approval.",
+      "done_proof": null
     }
   ]
 }
