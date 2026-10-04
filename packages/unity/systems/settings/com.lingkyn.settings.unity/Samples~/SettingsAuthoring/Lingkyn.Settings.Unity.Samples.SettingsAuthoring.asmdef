@@ -1,0 +1,8 @@
+{
+  "name": "Lingkyn.Settings.Unity.Samples.SettingsAuthoring",
+  "references": [
+    "Lingkyn.Settings.Core",
+    "Lingkyn.Settings.Unity"
+  ],
+  "autoReferenced": true
+}

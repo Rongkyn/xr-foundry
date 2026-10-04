@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Samples
+
+- Extended SettingsAuthoring with observable consumer-owned mute state, captured-
+  state rollback, failure diagnostics and six imported-sample NUnit cases. The
+  authored sample tests have not run in Unity.
+
 ### Documentation
 
 - Expanded `Documentation~/index.md` with the authoring asset table, conversion
