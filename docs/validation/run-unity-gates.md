@@ -100,3 +100,50 @@ behaviors under test for one exact tuple. They prove nothing about a player buil
 Android installation, controller input on hardware, world-space readability,
 comfort, or any named device. Those claims need a Device Lab receipt:
 [`docs/device-lab/README.md`](../device-lab/README.md).
+
+## Inspect a prepared external consumer (read-only)
+
+```bash
+python scripts/run_unity_gates.py --prepared-consumer /path/to/MyProject --dry-run --json
+```
+
+This separate mode reads the exact existing project, prints a static preflight
+report to stdout, and writes nothing. It never materializes, overwrites, cleans,
+resolves packages, locates an Editor, or launches Unity. `--dry-run` is mandatory;
+`--host`, `--host-dir`, `--keep-host`, `--unity`, `--timeout-minutes`, and
+`--output` are rejected.
+The generated-host modes above are unchanged: `--host-dir /path` creates a host
+under `/path/host` with embedded packages; it does not import an existing project.
+
+The preflight checks:
+
+- `Packages/manifest.json` and `ProjectSettings/ProjectVersion.txt` exist and parse,
+  and the manifest declares the Unity Test Framework.
+- Direct `com.lingkyn.*` dependencies use the catalog's package paths in
+  HTTPS Git selectors for `github.com/Lingkyn/xr-foundry.git` with the catalog's
+  `path` query and a full 40-character commit SHA fragment,
+  all at the same immutable commit. Other selector forms are unsupported here.
+- An existing `Packages/packages-lock.json` records matching Git source, version
+  selector, and resolved hash for those dependencies. Missing locks are blockers;
+  the preflight never invents or resolves them.
+- Consumer-owned test assemblies and statically countable cases exist under
+  `Assets`. Package/cache tests cannot substitute for consumer tests. `--mode`
+  and repeatable `--assembly` filters select those consumer-owned assemblies.
+  Unsupported dynamic tests and symlinked inputs fail closed. The source auditor
+  supports explicit `[Test]`, `[UnityTest]`, and `[TestCase]` declarations; this
+  mode rejects source/parameter/fixture expansion attributes. It is a lexical
+  audit, not a C# compiler: aliases, inherited tests, and conditional compilation
+  are not resolved. Its inventory is never execution evidence.
+
+Exit zero and `status: prepared` mean only those static checks passed. Exit one
+and `status: blocked` list missing or inconsistent inputs. The separate
+`xr-foundry.prepared_consumer_preflight.v1` report records manifest/lock digests,
+Editor version, selectors, and source inventory. It is not a Unity gate receipt;
+it proves no dependency resolution, compilation, test execution, acceptance,
+compatibility, maturity, or device behavior. A syntactically pinned SHA is not
+verified against GitHub, and a matching lock is not proof of an actual resolution.
+
+A quickstart project with manifests and a sample but no consumer-owned test
+assembly/cases remains blocked. Do not substitute library tests or fabricated
+configuration. Restarting Play Mode is not an Editor-process restart; neither
+restart behavior nor save survival is established by this static preflight.

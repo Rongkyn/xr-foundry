@@ -29,6 +29,7 @@ import importlib.util
 import json
 import os
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -36,6 +37,7 @@ import tempfile
 import time
 from pathlib import Path
 from typing import Any
+from urllib.parse import parse_qs, urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -264,7 +266,163 @@ def launch_unity(command: list[str], timeout_seconds: int) -> int:
     return completed.returncode
 
 
+def validate_prepared_arguments(args: argparse.Namespace) -> None:
+    if args.prepared_consumer is None:
+        return
+    if not args.prepared_consumer.strip():
+        raise ValueError("--prepared-consumer must name an existing project")
+    conflicts = [flag for flag, value in (
+        ("--host", args.host), ("--host-dir", args.host_dir),
+        ("--keep-host", args.keep_host), ("--unity", args.unity),
+        ("--output", args.output), ("--timeout-minutes", args.timeout_minutes),
+    ) if value is not None and value is not False]
+    if conflicts:
+        raise ValueError("--prepared-consumer cannot be combined with " + ", ".join(conflicts))
+    if not args.dry_run:
+        raise ValueError("--prepared-consumer requires --dry-run; Unity execution is not supported")
+
+
+def inspect_prepared_consumer(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
+    """Read existing consumer inputs only. Never create files or launch a process.
+
+    This is a static preflight, not a Unity gate receipt or dependency resolution.
+    Only Assets-owned tests count; embedded/package-cache tests are not consumers.
+    """
+    supplied_root = Path(args.prepared_consumer).expanduser().absolute()
+    root = supplied_root.resolve()
+    errors: list[str] = []
+    report: dict[str, Any] = {
+        "schema": "xr-foundry.prepared_consumer_preflight.v1",
+        "status": "blocked",
+        "claim_ceiling": "static configuration only; no resolution, compile, Editor test, restart, or device evidence",
+        "project": root.as_posix(), "editor_version": None,
+        "manifest_sha256": None, "resolved_lock_sha256": None,
+        "owned_git_dependencies": {}, "assemblies": [], "errors": errors,
+        "unity_executed": False,
+    }
+
+    if any(path.is_symlink() for path in (supplied_root, *supplied_root.parents)):
+        errors.append("project root: symlinked input is unsupported")
+        return report, 1
+
+    def read_json(relative: str) -> dict[str, Any]:
+        path = root / relative
+        try:
+            if any(part.is_symlink() for part in (path, *path.parents)):
+                raise ValueError("symlinked input is unsupported")
+            value = json.loads(path.read_text(encoding="utf-8"))
+            if not isinstance(value, dict):
+                raise ValueError("expected a JSON object")
+            return value
+        except (OSError, ValueError) as error:
+            errors.append(f"{relative}: {error}")
+            return {}
+
+    manifest = read_json("Packages/manifest.json")
+    lock = read_json("Packages/packages-lock.json")
+    for relative, key in (("Packages/manifest.json", "manifest_sha256"),
+                          ("Packages/packages-lock.json", "resolved_lock_sha256")):
+        path = root / relative
+        if path.is_file() and not any(part.is_symlink() for part in (path, *path.parents)):
+            report[key] = sha256_of(path)
+    version_path = root / "ProjectSettings/ProjectVersion.txt"
+    try:
+        if any(part.is_symlink() for part in (version_path, *version_path.parents)):
+            raise ValueError("symlinked input is unsupported")
+        version = re.search(r"^m_EditorVersion:\s*(\S+)\s*$", version_path.read_text(encoding="utf-8"), re.MULTILINE)
+        if not version or not re.fullmatch(r"\d+\.\d+\.\d+[abfp]\d+", version[1]):
+            raise ValueError("missing or invalid m_EditorVersion")
+        report["editor_version"] = version[1]
+    except (OSError, ValueError) as error:
+        errors.append(f"ProjectSettings/ProjectVersion.txt: {error}")
+
+    dependencies = manifest.get("dependencies")
+    if not isinstance(dependencies, dict):
+        errors.append("manifest dependencies must be an object")
+        dependencies = {}
+    if not isinstance(dependencies.get("com.unity.test-framework"), str):
+        errors.append("manifest is missing a com.unity.test-framework dependency")
+    locked = lock.get("dependencies")
+    if not isinstance(locked, dict):
+        errors.append("packages-lock.json dependencies must be an object")
+        locked = {}
+    catalog = load_catalog_packages()
+    pins: set[str] = set()
+    for package_id, selector in sorted(dependencies.items()):
+        if not package_id.startswith("com.lingkyn."):
+            continue
+        if not isinstance(selector, str):
+            errors.append(f"{package_id}: Git selector must be a string")
+            continue
+        try:
+            url = urlsplit(selector)
+            expected_path = "/" + catalog[package_id]["path"]
+            valid = (url.scheme == "https" and url.netloc.lower() == "github.com"
+                     and url.path.lower() == "/lingkyn/xr-foundry.git"
+                     and parse_qs(url.query) == {"path": [expected_path]}
+                     and re.fullmatch(r"[0-9a-fA-F]{40}", url.fragment))
+        except (ValueError, KeyError):
+            valid = False
+        if not valid:
+            errors.append(f"{package_id}: expected XR Foundry Git path selector pinned to a full immutable SHA")
+            continue
+        pin = url.fragment.lower()
+        pins.add(pin)
+        report["owned_git_dependencies"][package_id] = {"selector": selector, "commit_sha": pin}
+        entry = locked.get(package_id)
+        if not isinstance(entry, dict) or entry.get("source") != "git" or entry.get("version") != selector or str(entry.get("hash", "")).lower() != pin:
+            errors.append(f"{package_id}: missing or mismatched Git lock entry (source, version, hash)")
+    if not report["owned_git_dependencies"]:
+        errors.append("no immutable XR Foundry Git dependencies found")
+    if len(pins) > 1:
+        errors.append("XR Foundry Git dependencies must use the same immutable SHA")
+
+    assets = root / "Assets"
+    try:
+        if assets.is_symlink() or any(path.is_symlink() for path in assets.rglob("*")):
+            raise ValueError("symlinked Assets inputs are unsupported")
+        inventory = AUDIT.audit_project(assets)
+        test_directories = {assets / Path(item["asmdef"]).parent for item in inventory["assemblies"]}
+        for source in AUDIT._walk_files(assets, ".cs"):
+            owner = next((directory for directory in source.parents
+                          if directory == assets or list(directory.glob("*.asmdef"))), None)
+            if owner not in test_directories:
+                continue
+            for block in AUDIT.ATTRIBUTE_BLOCK.findall(AUDIT._strip_non_code(source.read_text(encoding="utf-8"))):
+                if re.search(r"(?<![\w.])(?:NUnit\.Framework\.)?(?:TestCaseSource|ValueSource|Values|Range|Random|TestFixtureSource|TestFixture|Ignore|Explicit)(?:Attribute)?\s*(?=\(|,|$)", block):
+                    errors.append(f"Assets/{source.relative_to(assets).as_posix()}: unsupported dynamic or skipped test attribute")
+        errors.extend(inventory["errors"])
+        assemblies = [item for item in inventory["assemblies"]
+                      if args.mode == "all" or item["mode"] == args.mode]
+        if args.assembly:
+            wanted = set(args.assembly)
+            found = {item["name"] for item in assemblies}
+            for name in sorted(wanted - found):
+                errors.append(f"requested consumer-owned test assembly not found: {name}")
+            assemblies = [item for item in assemblies if item["name"] in wanted]
+        report["assemblies"] = assemblies
+        if not assemblies:
+            errors.append("no consumer-owned test assembly matched in Assets")
+    except (OSError, ValueError) as error:
+        errors.append(f"Assets test inventory: {error}")
+    report["status"] = "prepared" if not errors else "blocked"
+    return report, 1 if errors else 0
+
+
+class GateArgumentParser(argparse.ArgumentParser):
+    def parse_args(self, args=None, namespace=None):
+        parsed = super().parse_args(args, namespace)
+        try:
+            validate_prepared_arguments(parsed)
+        except ValueError as error:
+            self.error(str(error))
+        return parsed
+
+
 def run_gates(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
+    validate_prepared_arguments(args)
+    if args.prepared_consumer is not None:
+        return inspect_prepared_consumer(args)
     catalog = load_catalog_packages()
     started_at = utc_now()
     output = Path(args.output).expanduser().resolve() if args.output else DEFAULT_OUTPUT_ROOT / time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
@@ -272,7 +430,7 @@ def run_gates(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
 
     host_root = Path(args.host_dir).expanduser().resolve() if args.host_dir else Path(tempfile.mkdtemp(prefix="xr-foundry-gates-"))
     host = host_root / "host"
-    profile, package_ids = resolve_host_packages(args.host, catalog)
+    profile, package_ids = resolve_host_packages(args.host or "reference-system", catalog)
     if profile == "reference-system":
         materialization = materialize_reference_system(host)
     else:
@@ -348,7 +506,7 @@ def run_gates(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
             boundary = run_boundary(output)
             command = unity_command(unity, host, item["mode"], item["name"], result_path, log_path)
             try:
-                returncode = launch_unity(command, args.timeout_minutes * 60)
+                returncode = launch_unity(command, (60 if args.timeout_minutes is None else args.timeout_minutes) * 60)
             except subprocess.TimeoutExpired:
                 returncode = -1
             verification = VERIFY.verify_unity_test_result(
@@ -395,19 +553,20 @@ def run_gates(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run every automated Unity gate of XR Foundry with one command.")
+    parser = GateArgumentParser(description="Run every automated Unity gate of XR Foundry with one command.")
     parser.add_argument("--unity", help="Path to the Unity Editor executable. Defaults to UNITY_EDITOR or the Unity Hub install.")
     parser.add_argument(
         "--host",
-        default="reference-system",
+        default=None,
         help="Host to generate: reference-system (default), all, or a comma-separated list of package ids whose com.lingkyn dependencies are embedded automatically.",
     )
+    parser.add_argument("--prepared-consumer", help="Existing external Unity project to inspect read-only; requires --dry-run, prints report only, never launches Unity.")
     parser.add_argument("--mode", choices=("all", *MODES), default="all")
     parser.add_argument("--assembly", action="append", help="Run only this test assembly (repeatable).")
     parser.add_argument("--output", help="Directory for results and the receipt. Defaults to .unity-gates/<timestamp> in the repository (ignored by Git).")
     parser.add_argument("--host-dir", help="Reuse or create the host project here instead of a temporary directory (must not exist inside the repository).")
     parser.add_argument("--keep-host", action="store_true", help="Keep the temporary host project after the run.")
-    parser.add_argument("--timeout-minutes", type=int, default=60)
+    parser.add_argument("--timeout-minutes", type=int, default=None, help="Unity process timeout in minutes (default: 60).")
     parser.add_argument("--dry-run", action="store_true", help="Generate the host, audit the inventory, and write the plan without launching Unity.")
     parser.add_argument("--json", action="store_true", help="Print the receipt as JSON.")
     return parser
@@ -416,7 +575,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     args = build_parser().parse_args()
     receipt, exit_code = run_gates(args)
-    if args.json:
+    if args.json or args.prepared_consumer is not None:
         print(json.dumps(receipt, indent=2))
     else:
         summary = receipt["summary"]

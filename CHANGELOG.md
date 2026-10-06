@@ -5,6 +5,10 @@ live in each package's `CHANGELOG.md`.
 
 ## Unreleased
 
+- Added a read-only prepared-external-consumer preflight to the Unity gate runner,
+  checking immutable Git selectors, existing lock/editor configuration, and
+  consumer-owned tests without generating a host or launching Unity.
+
 - Passed the source gate for Platform services (`docs/standards/platform-services/`,
   WI-027: 12 sources across Meta, PICO, Steamworks, Apple Game Center and StoreKit,
   Unity Gaming Services, store policy, and two maintained open-source layers;
